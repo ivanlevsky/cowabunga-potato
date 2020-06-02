@@ -1,17 +1,13 @@
-from PIL import Image
 from matplotlib import pyplot as plt
 import numpy as np
-import sys,pytesseract,os
+import pytesseract
 import cv2 as cv
 
 # metplotlib default not support chinese,need set font,windows fonts dir c:/windows/fonts
 plt.rcParams['font.sans-serif']=['Microsoft YaHei']
 
-imagePath = sys.path[0]+r'\image\pic.png'
-outputPath = sys.path[0]+r'\image\picout.png'
 
-characterPath = sys.path[0] + r'/image/char/'
-interpolationDic = {1: cv.INTER_NEAREST, 2: cv.INTER_LINEAR, 3: cv.INTER_AREA, 4: cv.INTER_CUBIC, 5: cv.INTER_LANCZOS4}
+interpolationType = {1: cv.INTER_NEAREST, 2: cv.INTER_LINEAR, 3: cv.INTER_AREA, 4: cv.INTER_CUBIC, 5: cv.INTER_LANCZOS4}
 pytesseract.pytesseract.tesseract_cmd = r'D:\develop\Tesseract-OCR\tesseract'
 
 def ocrImage(image):
@@ -19,22 +15,29 @@ def ocrImage(image):
     print('ocr output:'+ str)
     return str
 
-def persperctiveImage(image):
-    pts1 = np.float32([[20, 17], [188, 16], [0, 80], [187, 70]])
-    pts2 = np.float32([[0, 0], [232, 0], [0, 112], [232, 112]])
+def persperctiveImage(image,src_four_points, dst__four_points):
+    pts1 = np.float32(src_four_points)
+    pts2 = np.float32(dst__four_points)
     M = cv.getPerspectiveTransform(pts1, pts2)
     dst = cv.warpPerspective(image, M, (252, 122))
-    # plt.subplot(121),plt.imshow(image)
-    # plt.subplot(122),plt.imshow(dst)
-    # plt.show()
+    plt.subplot(121),plt.imshow(image)
+    plt.subplot(122),plt.imshow(dst)
+    plt.show()
     return dst
 
-def resizeImage(image,propertion,interPolIndex):
-    return cv.resize(image, None, fx=propertion, fy=propertion, interpolation = interpolationDic[interPolIndex])
+def denoiseImage(image):
+    dst = cv.fastNlMeansDenoising(image, None, 10, 7, 21)
+    return dst
 
-def osuThreadHold(imgPath):
-    img = cv.imread(imgPath, 0)
-    blur = cv.GaussianBlur(img, (5, 5), 0)
+def resizeImage(image,propertion_x,propertion_y,interPolIndex):
+    return cv.resize(image, None, fx=propertion_x, fy=propertion_y, interpolation = interpolationType[interPolIndex])
+
+def reverse_color_image(image):
+    return cv.bitwise_not(image)
+
+def osuThreadHold(imagePath):
+    input = cv.imread(imagePath, cv.IMREAD_GRAYSCALE)
+    blur = cv.GaussianBlur(input, (5, 5), 0)
     hist = cv.calcHist([blur], [0], None, [256], [0, 256])
     hist_norm = hist.ravel()/hist.max()
     Q = hist_norm.cumsum()
@@ -79,14 +82,9 @@ def threadholdImage(image):
         plt.xticks([]), plt.yticks([])
     plt.show()
 
-def denoiseImage(image):
-    dst = cv.fastNlMeansDenoising(image, None, 10, 7, 21)
-    return dst
 
-def inverseColor(image):
-    return cv.bitwise_not(image)
 
-def detectTextFromImage(image):
+def detectTextAreaFromImage(image):
     gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
     rectKernel = cv.getStructuringElement(cv.MORPH_RECT, (13, 5))
     sqKernel = cv.getStructuringElement(cv.MORPH_RECT, (21, 21))
@@ -97,89 +95,53 @@ def detectTextFromImage(image):
     (minVal, maxVal) = (np.min(gradX), np.max(gradX))
     gradX = (255 * ((gradX - minVal) / (maxVal - minVal))).astype("uint8")
     gradX = cv.morphologyEx(gradX, cv.MORPH_CLOSE, rectKernel)
-    thresh = cv.threshold(gradX, 0, 255, cv.THRESH_BINARY | cv.THRESH_OTSU)[1]
-    thresh = cv.morphologyEx(thresh, cv.MORPH_CLOSE, sqKernel)
-    thresh = cv.erode(thresh, None, iterations=4)
+    threshImage = cv.threshold(gradX, 0, 255, cv.THRESH_BINARY | cv.THRESH_OTSU)[1]
+    threshImage = cv.morphologyEx(threshImage, cv.MORPH_CLOSE, sqKernel)
+    threshImage = cv.erode(threshImage, None, iterations=4)
     # p = int(input.shape[1] * 0.05)
     # thresh[:, 0:p] = 0
     # thresh[:, input.shape[1] - p:] = 0
-    return thresh
+    return threshImage
 
-def findTextAreaContours(image):
-    ori = cv.imread(imagePath,cv.IMREAD_UNCHANGED)
+def showAllContours(image, threashImage):
+    contours, hierarchy = cv.findContours(threashImage, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
+    for cn in contours:
+        x, y, w, h = cv.boundingRect(cn)
+        image = cv.rectangle(image,(x,y),(x+w+10,y+h+5),(0,255,0),1)
+
+    # must convert gray thresh image to rgba to combine original image
+    threashImage = cv.cvtColor(threashImage,cv.COLOR_GRAY2RGBA)
+    image = np.concatenate((image, threashImage), axis=1)
+    cv.imshow('12',image)
+    cv.waitKey(0)
+
+
+def findTextAreaContours(ori, image, aspect_min, aspect_max, height_fix, width_fix):
     contours, hierarchy = cv.findContours(image, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
     for cn in contours:
         x, y, w, h = cv.boundingRect(cn)
         aspect_ratio = float(w)/h
-        # print(aspect_ratio)
-        if aspect_ratio>7 and aspect_ratio<10:
-            roi = ori[y:y + h + 7, x:x + w + 12]
-        # ori = cv.rectangle(ori,(x,y),(x+w+10,y+h+5),(0,255,0),1)
-
-    #must change gray to bgr to combine original image
-    # image = cv.cvtColor(image,cv.COLOR_GRAY2BGR)
-    # ori = np.concatenate((ori, image), axis=1)
-    # cv.imshow("12",ori)
-    # cv.waitKey(0)
-    return roi
+        if aspect_ratio>aspect_min and aspect_ratio<aspect_max:
+            ori = ori[y:y + h + height_fix, x:x + w + width_fix]
+    return ori
 
 
-
-
-def getLastWordsContour():
-    input = cv.imread(outputPath,cv.IMREAD_GRAYSCALE)
-    input = denoiseImage(resizeImage(input,8,3))
+def getLastWordsContour(image,char_path,char_widht,char_height):
+    input = cv.imread(image,cv.IMREAD_GRAYSCALE)
+    input = denoiseImage(resizeImage(input,8,8,3))
     ret,input1 = cv.threshold(input, 200, 255, cv.THRESH_BINARY_INV)
     contours, hierarchy = cv.findContours(input1, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
+    # input = cv.drawContours(input, contours, -1, (0, 255, 0), 3)
+    # cv.imshow('12', input)
+    # cv.waitKey(0)
     for cn in contours:
         x, y, w, h = cv.boundingRect(cn)
-        if w > 50 and h >50:
+        if w > char_widht and h > char_height:
             cp = input[y:y + h+ 10, x:x + w + 7].copy()
-            cv.imwrite(characterPath+str(x)+'.png',cp)
-        # break
-    input = cv.drawContours(input, contours, -1, (0, 255, 0), 3)
-    cv.imshow('12', input)
-    cv.waitKey(0)
+            cv.imwrite(char_path+str(x)+'.png',cp)
+
 
 def rotateImage(image):
     return cv.rotate(image, 20)
 
 
-
-
-'''
-get text area, and write to file
-'''
-# input = cv.imread(imagePath,cv.IMREAD_UNCHANGED)
-# input = inverseColor(input)
-# cp = findTextAreaContours(detectTextFromImage(input))
-# cv.imwrite(outputPath,cp)
-
-'''
-split text area image to singel character images
-'''
-# getLastWordsContour()
-
-input = cv.imread(sys.path[0] + r'/image/char/1152.png',cv.IMREAD_UNCHANGED)
-# input = inverseColor(input)
-ch1 =  denoiseImage(resizeImage(input,0.28,2))
-ret,input1 = cv.threshold(ch1,165,255,cv.THRESH_BINARY)
-mod = 15
-input1= cv.copyMakeBorder(input1,mod,mod,mod,mod,cv.BORDER_CONSTANT,value= [255,0,0])
-
-# kernel = np.ones((2,2),np.uint8)
-# input1 = cv.erode(input1,kernel,iterations = 1)
-cv.imshow('12',input1)
-cv.waitKey(0)
-ocrImage(input1)
-
-# for i in os.listdir(characterPath):
-#     input1 = cv.imread(sys.path[0] + r'/image/char/'+i,cv.IMREAD_GRAYSCALE)
-#     ch1 =  denoiseImage(resizeImage(input1,0.28,2))
-#     ret,input1 = cv.threshold(ch1,170,255,cv.THRESH_BINARY)
-#     mod = 15
-#     input1= cv.copyMakeBorder(input1,mod,mod,mod,mod,cv.BORDER_CONSTANT,value= [255,0,0])
-#     ocrImage(input1)
-#     input1 = rotateImage(input1)
-#     cv.imshow("12",input1)
-#     cv.waitKey(0)
