@@ -5,7 +5,7 @@ imageInput = os.path.dirname(os.getcwd()) +r'\test image\pic.png'
 imageOutput = os.path.dirname(os.getcwd())+r'\test image\picout.png'
 characterOutput = os.path.dirname(os.getcwd()) + '\\test image\char\\'
 sentenceOutput = os.path.dirname(os.getcwd()) + r'\test image\sentence.png'
-sysFontPath = r'c:\windows\fonts\msyh.ttc'
+sysFontPath = r'c:\windows\fonts\simkai.ttf'
 
 '''
 clean characters images when characters folder isn't empty
@@ -65,7 +65,7 @@ input = cv.cvtColor(reverse_color_image(input),cv.COLOR_GRAY2RGBA)
 
 ask_text = ask_text + ':' + ocrImage(input, 'chi_sim', '--psm 13 --oem 0')
 ori_image = cv.cvtColor(cv.imread(imageInput,cv.IMREAD_UNCHANGED),cv.COLOR_RGBA2RGB)
-output = writeTextOnImageUnicode(sentenceOutput,ask_text,(20,75),sysFontPath,23,'blue')
-output = combineTwoImages(output,ori_image,'portrait',False)
-cv.imshow('12',output)
+output = writeTextOnImageUnicode(sentenceOutput,ask_text,(20,75),sysFontPath,20,'blue')
+output = combineTwoImages(output,ori_image,'portrait')
+cv.imshow('12306 ocr',output)
 cv.waitKey(0)

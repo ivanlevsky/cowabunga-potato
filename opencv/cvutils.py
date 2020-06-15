@@ -159,18 +159,13 @@ def getLastWordsContour(image, char_path, char_width, char_height, sentence_path
 def rotateImage(image, arc):
     return cv.rotate(image, arc)
 
-
-def combineTwoImages(image_one, image_two, axis_direction, axis_scale_xy):
+def combineTwoImages(image_one, image_two, axis_direction):
     if axis_direction == 'portrait':
-        axis_direction = 0;
-        image_two = resizeImage(image_two, image_one.shape[1] / image_two.shape[1], 1, 2)
+        axis_direction = 0
+        image_two = resizeImage(image_two, image_one.shape[1] / image_two.shape[1], image_one.shape[1] / image_two.shape[1], 2)
     elif axis_direction == 'landscape':
-        axis_direction = 1;
-        image_two = resizeImage(image_two, 1, image_one.shape[0] / image_two.shape[0], 2)
-    # scale width and height to fit two demensions
-    if axis_scale_xy:
-        image_two = resizeImage(image_two, image_one.shape[1] / image_two.shape[1],
-                                image_one.shape[0] / image_two.shape[0], 2)
+        axis_direction = 1
+        image_two = resizeImage(image_two, image_one.shape[0] / image_two.shape[0], image_one.shape[0] / image_two.shape[0], 2)
 
     image = np.concatenate((image_one, image_two), axis=axis_direction)
     return image
@@ -190,3 +185,44 @@ def writeTextOnImageUnicode(image_path, text, text_position, font_path, font_sca
     draw.text(text_position, text, fill=font_color, font=font)
     output = cv.cvtColor(np.array(image), cv.COLOR_RGB2BGR)
     return output
+
+
+def detectTextAreaFromVideo(ori_frame,video_frame):
+    gray = detectTextAreaFromImage(video_frame)
+    contours, hierarchy = cv.findContours(gray, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
+    for cn in contours:
+        x, y, w, h = cv.boundingRect(cn)
+        aspect_ratio = float(w) / h
+        if aspect_ratio>5 and w>200 and h>30:
+           gray =ori_frame[y:y + h+10, x:x + w -80].copy()
+           cv.rectangle(ori_frame, (x, y), (x + w, y + h+10), (0, 255, 0), 2)
+    return ori_frame,gray
+
+def play_and_save_Video(video_path,save_path, video_scale, play_speed):
+    cap = cv.VideoCapture(video_path)
+    play_speed = int(25/play_speed)
+    fourcc = cv.VideoWriter_fourcc(*'mp4v')
+    out = cv.VideoWriter(save_path, fourcc , 20.0, (640,  480))
+    while cap.isOpened():
+        ret, frame = cap.read()
+        if not ret:
+            print("movie end! Exiting ...")
+            break
+        frame = resizeImage(frame,video_scale,video_scale,1)
+
+        fgMask = cv.createBackgroundSubtractorMOG2().apply(frame)
+        gray = cv.cvtColor(reverse_color_image(fgMask),cv.COLOR_GRAY2RGB)
+        frame,gray = detectTextAreaFromVideo(frame,gray)
+
+        if gray.shape[0] < 50 and cap.get(cv.CAP_PROP_POS_FRAMES)%1 ==0:
+            frame = writeTextOnImageAscii(frame,ocrImage(gray, 'eng', '--psm 10 --oem 1') ,(50,30),cv.FONT_HERSHEY_SIMPLEX,0.6,(250, 250, 124, 255),2)
+        # cv.imshow('video ocr', frame)
+        frame = cv.flip(frame,0)
+        # frame = cv.cvtColor(frame,cv.COLOR_RGB2BGR)
+        out.write(frame)
+        if cv.waitKey(play_speed) == ord('q'):
+            break
+
+    cap.release()
+    out.release()
+    cv.destroyAllWindows()
