@@ -1,0 +1,32 @@
+# problem when starting sdkmanger.bat in windows10
+download the command line tool.zip, unpack it,maken sure the folder structure like this:
+D:\your-android-sdk-folder
+|——————\cmdline-tools
+|——————\latest
+       |——————\bin
+       |——————\lib
+       |——————NOTICE.txt
+       |——————source.properties
+
+then set android home environment:
+
+add ANDROID_HOME :D:\your-android-sdk-folder\cmdline-tools\latest
+add ANDROID_SDK_HOME: this will create a folder named ".android"
+Path add: "%ANDROID_HOME%\bin","your-android-sdk-folder\build-tools\27.0.3"(aapt),
+	"your-android-sdk-folder\platform-tools"(adb)
+
+run "sdkmanger --version" to check if installed successd
+run "sdkmanager platforms;android-27" to install android 8 api
+run "sdkmanager --verbose --list" will reveal the paths it checks.
+run "sdkmanager build-tools;27.0.3" to install sdk tools like adb,aapt...
+
+make sure open development mode on phone,
+make sure"usb debugging","install via usb","usb debugging(security settings)" the three option is opened
+run "adb devices" to check phone device id
+
+when "tap by coordinates"
+click "zoom in" if appium inspector show "coordinates (x,y) out bounds" when tap on screen
+
+
+https://jlhxxxx.github.io/appium-base-01.html
+
