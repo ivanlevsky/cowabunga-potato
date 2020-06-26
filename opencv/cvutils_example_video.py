@@ -1,11 +1,9 @@
 from opencv.cvutils import *
+from python_common.global_param import video_input,video_output
 
-import os
-videoInput = os.path.dirname(os.getcwd()) +r'\test video\video1.mp4'
-videoOutput = os.path.dirname(os.getcwd())+r'\test video\videoout.mp4'
 
 # write video not working now
-play_and_save_Video(videoInput,videoOutput, 1 ,1)
+play_and_save_Video(video_input,video_output, 1 ,1)
 
 
 

@@ -10,3 +10,8 @@ def get_command_output(cmd):
     if status == 0:
         return output
 
+
+def get_shell_output(shell_cmd, execute_cmd):
+    shell_cmd.append(execute_cmd)
+    return subprocess.Popen(shell_cmd, stdout=subprocess.PIPE).communicate()[0].decode('utf8')
+

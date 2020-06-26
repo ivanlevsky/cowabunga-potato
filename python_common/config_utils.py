@@ -1,11 +1,10 @@
-import configparser, os
-
-conf_path = os.path.dirname(os.getcwd()) + r'\test video\cf.properties'
+import configparser
 
 '''
 read_conf_file(conf_file): only read config file,return config object
 read_conf_file(conf_file,section): read config file,return all sections if section exist
-read_conf_file(conf_file,section,option): read config file return config,section,option(option is None if not exist) 
+read_conf_file(conf_file,section,option): read config file return section,option(option is None if not exist), and
+                                            option value if option exist 
 '''
 def read_conf_file(conf_file, *section_option):
     config = configparser.ConfigParser()
@@ -24,7 +23,8 @@ def read_conf_file(conf_file, *section_option):
     if not config.has_option(section_option[0], section_option[1]):
         print(''.join(('config section "', section_option[0], '" option "', section_option[1], '" not found')))
         return config, section_option[0], None
-    return config, section_option[0], section_option[1]
+
+    return section_option[0], section_option[1],config.get(section_option[0],section_option[1])
 
 
 def write_conf_file(conf_file, config):
@@ -48,7 +48,6 @@ add_conf_options_by_section(conf, 'section3', key1='value3', key2='value2'):add 
 def add_conf_options_by_section(config, section, **key_and_values):
     config.read_dict({section: key_and_values})
 
-
 # conf = read_conf_file(conf_path)
-# add_conf_options_by_section(conf, 'section2', key1='zz', key2='value232')
+# add_conf_options_by_section(conf, 'path', videoInput=videoInput,videoOutput=videoOutput)
 # write_conf_file(conf_path, conf)
