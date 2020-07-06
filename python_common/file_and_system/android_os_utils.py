@@ -1,10 +1,19 @@
-from python_common.windows_os_utils import *
+from python_common.file_and_system.windows_os_utils import *
 from python_common.string_utils import *
-from python_common.global_param import aapt_path
+from python_common.global_param import aapt_path,android_apk_list
+from python_common.file_and_system.file_utils import *
 
 
 def android_device_list():
     return get_command_output('adb devices').split('\n')[1].replace('device', '').strip()
+
+
+def android_version():
+    return get_command_output('adb shell getprop ro.build.version.release')
+
+
+def android_api_version():
+    return get_command_output('adb shell getprop ro.build.version.sdk')
 
 
 def android_current_opened_app_info():
@@ -19,6 +28,7 @@ def android_check_app_active(app_package):
         if m.__contains__(app_package):
             msg = split_string_by_regex('{|}', m.strip())[1].split(' ')[2]
             return msg.split('/')[0], msg.split('/')[1]
+    return 'not_find', 'not_find'
 
 
 def android_aapt_install():
@@ -38,6 +48,8 @@ def android_all_package_list():
         ms = android_aapt_get_app_info(ms[ms.index('/'):ms.rindex('=')]).replace('\r\n', '').split('\'')
         if ms.count('package: name=') == 1:
             pkg = ms[ms.index('package: name=') + 1]
+        else:
+            pkg = ''
         if ms.count('application-label-zh-CN:') == 1:
             name = ms[ms.index('application-label-zh-CN:') + 1]
         elif ms.count('application-label:') == 1:
@@ -52,6 +64,7 @@ def android_all_package_list():
             launch = android_search_app_activity(pkg)
         package_list.append(','.join((pkg, name, launch)))
 
+    write_string_to_file(android_apk_list, package_list,'utf8')
     return package_list
 
 
@@ -71,8 +84,14 @@ def android_search_app_activity(app_package):
         msg = msg.replace('\r\n', '').split('name=')[1].strip()
     return msg
 
+
 def android_search_package_by_name(app_name):
+    read_list = list(read_file(android_apk_list, 'utf8').strip('][').replace('\'', '').split(', '))
+    for rl in read_list:
+        if rl.__contains__(app_name):
+            return rl.split(',')[0],rl.split(',')[2]
 
-    return ''
 
-# print(android_all_package_list())
+# pkg, laun = android_search_package_by_name('微信')
+# print(pkg)
+# print(laun)
