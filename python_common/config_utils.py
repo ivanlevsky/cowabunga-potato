@@ -1,12 +1,13 @@
 import configparser
 
-'''
-read_conf_file(conf_file): only read config file,return config object
-read_conf_file(conf_file,section): read config file,return all sections if section exist
-read_conf_file(conf_file,section,option): read config file return section,option(option is None if not exist), and
-                                            option value if option exist 
-'''
+
 def read_conf_file(conf_file, *section_option):
+    """
+    read_conf_file(conf_file): only read config file,return config object
+    read_conf_file(conf_file,section): read config file,return all sections if section exist
+    read_conf_file(conf_file,section,option): read config file return section,option(option is None if not exist), and
+                                                option value if option exist
+    """
     config = configparser.ConfigParser()
     config.read(conf_file)
 
@@ -40,12 +41,12 @@ def remove_conf_option(config, section, option):
     config.remove_option(section, option)
 
 
-'''
-add_conf_options_by_section(conf,'section1'):add new section if section not in config
-add_conf_options_by_section(conf,'section2',key1='value1'):update option's value if option exist or add new option
-add_conf_options_by_section(conf, 'section3', key1='value3', key2='value2'):add or update multi options
-'''
 def add_conf_options_by_section(config, section, **key_and_values):
+    """
+    add_conf_options_by_section(conf,'section1'):add new section if section not in config
+    add_conf_options_by_section(conf,'section2',key1='value1'):update option's value if option exist or add new option
+    add_conf_options_by_section(conf, 'section3', key1='value3', key2='value2'):add or update multi options
+    """
     config.read_dict({section: key_and_values})
 
 # conf = read_conf_file(conf_path)

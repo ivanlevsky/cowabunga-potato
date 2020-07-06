@@ -1,6 +1,7 @@
 from matplotlib import pyplot as plt
 from PIL import Image, ImageDraw, ImageFont
-from python_common.global_param import tesseract_path
+from python_common.global_param import tesseract_path, qr_code_image_path
+
 
 import numpy as np
 import pytesseract
@@ -232,3 +233,11 @@ def play_and_save_Video(video_path, save_path, video_scale, play_speed):
     cap.release()
     out.release()
     cv.destroyAllWindows()
+
+
+def qr_code_decode():
+    img = cv.imread(qr_code_image_path, cv.IMREAD_GRAYSCALE)
+    decoded_text = cv.QRCodeDetector().detectAndDecode(img)
+    return decoded_text[0]
+
+
