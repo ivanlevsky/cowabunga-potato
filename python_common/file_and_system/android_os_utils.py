@@ -92,6 +92,12 @@ def android_search_package_by_name(app_name):
             return rl.split(',')[0],rl.split(',')[2]
 
 
+def android_check_screen_is_locked():
+    cmd = 'dumpsys window | grep mDreamingLockscreen'
+    msg = (get_shell_output(['adb', 'shell'], cmd))
+    return msg.__contains__('mDreamingLockscreen=true')
+
+
 # pkg, laun = android_search_package_by_name('微信')
 # print(pkg)
 # print(laun)
