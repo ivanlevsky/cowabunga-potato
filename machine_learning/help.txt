@@ -1,0 +1,2 @@
+reference links:
+https://towardsdatascience.com/how-i-used-machine-learning-to-detect-chat-screenshots-on-my-phone-a46d875b07af

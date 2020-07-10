@@ -46,7 +46,7 @@ A: install aapt binary for android:
    run "adb shell pm list packages -3 -f" get apkpath
    run "adb shell /data/local/tmp/aapt-arm-pie d badging " + apkpath
 
-Q: webview chromedriver wrong?
+Q: appium webview chromedriver wrong?
 A: 1.manual select chromedriver
    check appium log to find app's webview version, then download the version's chromedriver:
    https://chromedriver.chromium.org/downloads
@@ -55,6 +55,6 @@ A: 1.manual select chromedriver
    2.auto select
    see appium_utils's comment
 
-link:
+reference links:
     https://jlhxxxx.github.io/appium-base-01.html
 

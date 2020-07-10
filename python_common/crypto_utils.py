@@ -81,4 +81,4 @@ def file_checksum(file, checksum_type, buffersize):
 # print(bin_decode(bin_encode('胜多负少')))
 # print(base64_decode(base64_encode('是各个')))
 # print(hash_calculate('时不利兮骓不逝','md5','sai yo na na'))
-# print(file_checksum(r'D:\pic.png','sha1',65535))
+# print(file_checksum(r'D:\file.txt','sha1',65535))

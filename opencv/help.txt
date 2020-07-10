@@ -1,0 +1,3 @@
+reference links:
+# https://www.pyimagesearch.com/2017/07/10/using-tesseract-ocr-python/
+# https://www.pyimagesearch.com/2015/11/30/detecting-machine-readable-zones-in-passport-images/
