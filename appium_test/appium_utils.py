@@ -2,6 +2,7 @@ from python_common.file_and_system.android_os_utils import *
 from appium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.common.by import By
 
 desired_caps = dict(
     automationName='uiautomator2',
@@ -14,12 +15,12 @@ desired_caps = dict(
     # enableWebviewDetailsCollection='true',
     # ensureWebviewsHavePages=True,
 
-    chromeOptions={
-        "androidUseRunningApp": True,
-        "androidDeviceSerial": "10ffcace",
-        "androidPackage": "com.tencent.mm",
-        "androidProcess": "com.tencent.mm:tools"
-    }
+    # chromeOptions={
+    #     "androidUseRunningApp": True,
+    #     "androidDeviceSerial": "10ffcace",
+    #     "androidPackage": "com.tencent.mm",
+    #     "androidProcess": "com.tencent.mm:tools"
+    # }
 )
 
 
@@ -50,9 +51,9 @@ def close_driver(driver):
 def check_app_status(app_name):
     is_app_background = False
     app_package, app_activity = android_search_package_by_name(app_name)
-    open_app_package, open_app_activity = android_check_app_active(app_activity)
+    open_app_package, open_app_activity = android_check_app_active(app_package)
     back_app_package, back_app_activity = android_current_opened_app_info()
-    if open_app_package != app_package or open_app_activity != app_activity:
+    if open_app_package != app_package:# or open_app_activity != app_activity:
         desired_caps.__setitem__('appPackage', app_package)
         desired_caps.__setitem__('appActivity', app_activity)
     else:
@@ -66,8 +67,14 @@ def find_element_by_class(driver, android_view_class):
         expected_conditions.visibility_of(driver.find_element_by_class_name(android_view_class)))
 
 
-def find_elements_by_text(driver, android_view_class, text):
+def find_elements_by_class_name(driver, android_view_class):
+    return driver.find_elements_by_class_name(android_view_class)
+
+
+def find_element_by_class_and_text(driver, android_view_class, text):
     page_text = driver.find_elements_by_class_name(android_view_class)
+    if page_text.__len__() == 1:
+       return page_text[0]
     for pt in page_text:
         if pt.get_attribute('text') == text:
             return pt
@@ -75,8 +82,22 @@ def find_elements_by_text(driver, android_view_class, text):
             return pt
 
 
+def find_element_by_id(driver, element_id):
+    return WebDriverWait(driver, 3).until(
+        expected_conditions.presence_of_element_located((By.ID,element_id)))
+    # return driver.find_element_by_id(element_id)
+
+
 def find_element_by_accessibility_id(driver, accessibility_id):
     return driver.find_element_by_accessibility_id(accessibility_id)
+
+
+def find_element_by_xpath(driver, xpath):
+    return driver.find_element_by_xpath(xpath)
+
+
+def find_parent_element_by_xpath(driver, child_xpath):
+    return driver.find_element_by_xpath(child_xpath)
 
 
 def save_screenshot(driver, path):

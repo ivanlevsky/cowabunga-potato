@@ -15,46 +15,46 @@ make sure"usb debugging","install via usb","usb debugging(security settings)" th
 run "adb devices" to check phone device id
 
 --------------------FAQ---------------------------
-"tap by coordinates" ,appium inspector show "coordinates (x,y) out bounds" when tap on screen ?
-click "zoom in"
+Q: "tap by coordinates" ,appium inspector show "coordinates (x,y) out bounds" when tap on screen ?
+A: click "zoom in"
 
-appium can't connect to phone when not use wifi ?
-search "appium" in phone settings "applications",there are three appium apps,make sure they
+Q: appium can't connect to phone when not use wifi ?
+A: search "appium" in phone settings "applications",there are three appium apps,make sure they
 can use 4g net
 
-how to find appPackage and appActivity ?
-open your app
-run "adb shell"
-run " dumpsys window windows | grep -E 'mCurrentFocus|mFocusedApp' "
+Q: how to find appPackage and appActivity ?
+A: open your app
+   run "adb shell"
+   run " dumpsys window windows | grep -E 'mCurrentFocus|mFocusedApp' "
 
-error when starting sdkmanger.bat in windows10 ?
-download the command line tool.zip, unpack it,maken sure the folder structure like this:
-D:\your-android-sdk-folder
-|——————\cmdline-tools
-|——————\latest
-       |——————\bin
-       |——————\lib
-       |——————NOTICE.txt
-       |——————source.properties
+Q: error when starting sdkmanger.bat in windows10 ?
+A: download the command line tool.zip, unpack it,maken sure the folder structure like this:
+    D:\your-android-sdk-folder
+    |——————\cmdline-tools
+    |——————\latest
+           |——————\bin
+           |——————\lib
+           |——————NOTICE.txt
+           |——————source.properties
 
-how to search installed app's name(app's label) ?
-install aapt binary for android:
-https://android.izzysoft.de/downloads --for android 5.0 before
-https://github.com/Calsign/APDE/tree/master/APDE/src/main/assets/aapt-binaries --for android 5.0 or after and x86 device
-run "adb push aapt-are-pie to /data/local/tmp"
-run "adb shell chmod 0755 /data/local/tmp/aapt-arm-pie"
-run "adb shell pm list packages -3 -f" get apkpath
-run "adb shell /data/local/tmp/aapt-arm-pie d badging " + apkpath
+Q: how to search installed app's name(app's label) ?
+A: install aapt binary for android:
+   https://android.izzysoft.de/downloads --for android 5.0 before
+   https://github.com/Calsign/APDE/tree/master/APDE/src/main/assets/aapt-binaries --for android 5.0 or after and x86 device
+   run "adb push aapt-are-pie to /data/local/tmp"
+   run "adb shell chmod 0755 /data/local/tmp/aapt-arm-pie"
+   run "adb shell pm list packages -3 -f" get apkpath
+   run "adb shell /data/local/tmp/aapt-arm-pie d badging " + apkpath
 
-webview chromedriver wrong?
-1.manual select chromedriver
-check appium log to find app's webview version, then download the version's chromedriver:
-https://chromedriver.chromium.org/downloads
-replace the appium desktop's driver:
-D:\develop\appium\resources\app\node_modules\appium\node_modules\appium-chromedriver\chromedriver\win\
-2.auto select
-see appium_utils's comment
+Q: webview chromedriver wrong?
+A: 1.manual select chromedriver
+   check appium log to find app's webview version, then download the version's chromedriver:
+   https://chromedriver.chromium.org/downloads
+   replace the appium desktop's driver:
+   D:\develop\appium\resources\app\node_modules\appium\node_modules\appium-chromedriver\chromedriver\win\
+   2.auto select
+   see appium_utils's comment
 
-
-https://jlhxxxx.github.io/appium-base-01.html
+link:
+    https://jlhxxxx.github.io/appium-base-01.html
 
