@@ -4,11 +4,13 @@ import configparser
 def read_conf_file(conf_file, *section_option):
     """
     read_conf_file(conf_file): only read config file,return config object
+
     read_conf_file(conf_file,section): read config file,return all sections if section exist
-    read_conf_file(conf_file,section,option): read config file return section,option(option is None if not exist), and
-                                                option value if option exist
+
+    read_conf_file(conf_file,section,option): read config file return section,option(option is None if not exist),
+    or option value if option exist
     """
-    config = configparser.ConfigParser()
+    config = configparser.ConfigParser(interpolation=None)
     config.read(conf_file)
 
     if len(section_option) == 0:
@@ -25,7 +27,7 @@ def read_conf_file(conf_file, *section_option):
         print(''.join(('config section "', section_option[0], '" option "', section_option[1], '" not found')))
         return config, section_option[0], None
 
-    return section_option[0], section_option[1],config.get(section_option[0],section_option[1])
+    return section_option[0], section_option[1], config.get(section_option[0],section_option[1])
 
 
 def write_conf_file(conf_file, config):

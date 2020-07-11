@@ -3,5 +3,7 @@
 /test image/
 /test video/
 /test file/aap*
-/test file/android_apk_list.txt
-/test file/chromedriver*
+/test file/weblist.properties
+/test file/*.py
+/test file/*.txt
+/test file/*/*.exe
