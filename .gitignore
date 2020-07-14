@@ -6,4 +6,5 @@
 /test file/weblist.properties
 /test file/*.py
 /test file/*.txt
-/test file/*/*.exe
+/test file/chromedriver*
+/test file/datasets/

@@ -23,6 +23,11 @@ appium_screenshot_path = ''.join((project_path,read_conf_file(conf_path,section_
 appium_screenrecord_path = ''.join((project_path,read_conf_file(conf_path,section_path,'appium_screenrecord_path')[2]))
 qr_code_image_path = ''.join((project_path,read_conf_file(conf_path,section_path,'qr_code_image_path')[2]))
 
+ml_ch2_housing_data = ''.join((
+    project_path,read_conf_file(conf_path,section_path,'ml_ch2_housing_data')[2]))
+ml_ch2_housing_image = ''.join((
+    project_path,read_conf_file(conf_path,section_path,'ml_ch2_housing_image')[2]))
+
 
 
 
