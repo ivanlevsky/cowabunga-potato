@@ -64,9 +64,34 @@ def get_array_size(array):
 
 def get_array_universal_functions(array, np_function_name):
     for func in (np.min, np.max, np.sum, np.std, np.var, np.mean, np.prod, np.square, np.abs,
-                 np.sqrt,np.exp, np.log, np.sign, np.ceil, np.modf, np.isnan, np.cos):
+                 np.sqrt, np.exp, np.log, np.sign, np.ceil, np.modf, np.isnan, np.cos):
         if func.__name__ == np_function_name:
             return func(array)
+
+
+def save_numpy_array(file_name, file_type, array):
+    if file_type is None:
+       np.save(file_name, array)
+    elif file_type == 'text':
+       np.savetxt(''.join((file_name, '.csv')), array, delimiter=',')
+
+
+def save_zipped_numpy_array(file_name, compress, array):
+    if compress is False:
+        np.savez(file_name, array)
+    else:
+        np.savez_compressed(file_name, array)
+
+
+def load_numpy_array(file_name, file_type):
+    if file_type is None:
+        return np.load(''.join((file_name, '.npy')))
+    elif file_type == 'text':
+        return np.loadtxt(''.join((file_name, '.csv')), delimiter=',')
+
+
+def load_zipped_numpy_array(file_name):
+    return np.load(''.join((file_name, '.npz'))).get('arr_0')
 
 
 # print(get_array_shape(two_rank_dimensional(4, 2)))
