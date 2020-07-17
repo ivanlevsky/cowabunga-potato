@@ -37,6 +37,7 @@ ml_ch3_sklearn_data_home = ''.join((
 ml_numpy_array_save_path = ''.join((
     project_path,read_conf_file(conf_path,section_machine_learning,'ml_numpy_array_save_path')[2]))
 
-
+ml_matplotlib_figure_save_path = ''.join((
+    project_path,read_conf_file(conf_path,section_machine_learning,'ml_matplotlib_figure_save_path')[2]))
 
 
