@@ -1,9 +1,11 @@
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
+from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
 
 # metplotlib default not support chinese,need set font,windows fonts dir c:/windows/fonts
 plt.rcParams['font.sans-serif'] = ['Microsoft YaHei']
+
 
 def set_line_style(matplot_object, line_object, style):
     """{'': '_draw_nothing', ' ': '_draw_nothing', '-': '_draw_solid', '--': '_draw_dashed', '-.': '_draw_dash_dot',
@@ -42,7 +44,7 @@ def show_matplot_image(matplot_object):
 
 def animate(num, data, line, point_x_line, point_y_line, point):
     # if len(data[..., :num])!=0:
-    if len(data[..., :num][0]) != 0 :
+    if len(data[..., :num][0]) != 0:
         px = data[...,:num][0][-1]
         py = data[...,:num][1][-1]
         point_x_line.set_data([px-0.5, px+0.5], [py, py])
@@ -52,8 +54,16 @@ def animate(num, data, line, point_x_line, point_y_line, point):
     return line,
 
 
+def animate_3d(num, zx, zy, ani_plot):
+    ani_plot[0].remove()
+    zz = ((R**2 - num/50)**2)
+    ani_plot[0] = ax.plot_surface(zx, zy, zz, cmap="rainbow")
+    ax.view_init(45,100+abs(num-50))
+    return ani_plot[0],
+
+
 def test_2d_formula_animation(formula_title, formula_input,  formula_output):
-    fig = plt.figure()
+    fig_2d = plt.figure()
     data = np.array([formula_input, formula_output])
     line, = plt.plot([], [], "r-")
     point_x_line, = plt.plot([], [], "b-")
@@ -62,9 +72,9 @@ def test_2d_formula_animation(formula_title, formula_input,  formula_output):
     plt.axis([-2.0, 2.0, -2.0, 2.0])
     plt.grid(True)
     plt.title(formula_title)
-    line_ani = animation.FuncAnimation(fig, animate, frames=105, fargs=(data, line, point_x_line, point_y_line,
+    line_2d_ani = animation.FuncAnimation(fig_2d, animate, frames=105, fargs=(data, line, point_x_line, point_y_line,
                                                              point), interval=10)
-    return plt, line_ani
+    return plt, line_2d_ani
 
 
 def save_animation_as_gif_image(write_animation, animation_name):
@@ -80,17 +90,33 @@ def test_function():
     return plt, line_list
 
 
+# -----------------test line , line style-----------------------------------
 # mplt, lines = draw_formula_two_dimensional('Square function', x, y, 'y = x**2')
 # mplt, lines = test_function()
 # set_line_style(mplt, lines[0], ':')
 # set_line_marker(mplt, lines[0], '*')
 # set_line_color(mplt, lines[0], 'c')
+# ------------------2d animation----------------------------------
+# x = np.linspace(-2, 2, 50)
+# y = np.sqrt(1-(x**2/4))
+# x = np.concatenate((x, -x), axis=0)
+# y = np.concatenate((y, -y), axis=0)
+# mplt, test_ani = test_2d_formula_animation('test', x, y)
 # show_matplot_image(mplt)
+# save_animation_as_gif_image(test_ani, 'ellipse')
+# -----------------3d animation-----------------------------------
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+r = np.linspace(0, 1, 20)
+p = np.linspace(0, 2*np.pi, 20)
+R, P = np.meshgrid(r, p)
+Z = ((R**2 - 1)**2)
+X, Y = R*np.cos(P), R*np.sin(P)
+mplot = [ax.plot_surface(X, Y, Z, cmap="rainbow")]
+ax.set_zlim(0,1)
+ax.set_xlabel(r'$\phi_\mathrm{real}$')
+ax.set_ylabel(r'$\phi_\mathrm{im}$')
+ax.set_zlabel(r'$V(\phi)$')
+line_ani = animation.FuncAnimation(fig, animate_3d, frames=50, fargs=(X, Y, mplot), interval=10)
+plt.show()
 
-x = np.linspace(-2, 2, 50)
-y = np.sqrt(1-(x**2/4))
-x = np.concatenate((x, -x), axis=0)
-y = np.concatenate((y, -y), axis=0)
-mplt, test_ani = test_2d_formula_animation('test', x, y)
-# show_matplot_image(mplt)
-save_animation_as_gif_image(test_ani, 'ellipse')
