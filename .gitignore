@@ -8,3 +8,4 @@
 /test file/*.txt
 /test file/chromedriver*
 /test file/datasets/
+/test file/appium/

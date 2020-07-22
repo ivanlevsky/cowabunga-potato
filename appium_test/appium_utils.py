@@ -11,7 +11,7 @@ desired_caps = dict(
     #
     # chromedriverExecutableDir=r'D:\ivanovsky\IdeaProjects\cowabunga-potato\test file\chromedriver',
     # chromedriverChromeMappingFile=r'D:\ivanovsky\IdeaProjects\cowabunga-potato\test '
-    #                               r'file\chromedriver_mapping.json',
+    #                               r'file\appium\chromedriver_mapping.json',
     # enableWebviewDetailsCollection='true',
     # ensureWebviewsHavePages=True,
 

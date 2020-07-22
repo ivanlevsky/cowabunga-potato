@@ -71,9 +71,9 @@ def get_array_universal_functions(array, np_function_name):
 
 def save_numpy_array(file_name, file_type, array):
     if file_type is None:
-       np.save(file_name, array)
+        np.save(file_name, array)
     elif file_type == 'text':
-       np.savetxt(''.join((file_name, '.csv')), array, delimiter=',')
+        np.savetxt(''.join((file_name, '.csv')), array, delimiter=',')
 
 
 def save_zipped_numpy_array(file_name, compress, array):
@@ -92,7 +92,6 @@ def load_numpy_array(file_name, file_type):
 
 def load_zipped_numpy_array(file_name):
     return np.load(''.join((file_name, '.npz'))).get('arr_0')
-
 
 # print(get_array_shape(two_rank_dimensional(4, 2)))
 # print(get_array_size(two_rank_dimensional(4, 2)))

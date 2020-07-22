@@ -1,7 +1,7 @@
 import cv2 as cv
 from python_common.global_param import face_detect_eyes_xml, face_detect_face_xml
 
-
+# get face detect datasets xml from https://github.com/opencv/opencv/blob/master/data/haarcascades/
 def detect_and_display(face_frame):
     frame_gray = cv.cvtColor(face_frame, cv.COLOR_BGR2GRAY)
     frame_gray = cv.equalizeHist(frame_gray)

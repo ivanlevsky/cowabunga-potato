@@ -4,25 +4,28 @@ import os
 
 project_path = os.path.dirname(os.getcwd())
 conf_path = ''.join((project_path + r'\test file\cf.properties'))
-section_path = 'path'
+section_opencv_utils = 'opencv_utils'
 section_machine_learning = 'machine_learning'
+section_appium = 'appium'
 
-# path section
-system_font_path = read_conf_file(conf_path,section_path,'system_font_path')[2]
-tesseract_path =  read_conf_file(conf_path,section_path,'tesseract_path')[2]
+# opencv_utils section
+system_font_path = read_conf_file(conf_path,section_opencv_utils,'system_font_path')[2]
+tesseract_path = read_conf_file(conf_path,section_opencv_utils,'tesseract_path')[2]
+image_input = ''.join((project_path,read_conf_file(conf_path,section_opencv_utils,'image_input')[2]))
+image_output = ''.join((project_path,read_conf_file(conf_path,section_opencv_utils,'image_output')[2]))
+character_output = ''.join((project_path,read_conf_file(conf_path,section_opencv_utils,'character_output')[2]))
+sentence_output = ''.join((project_path,read_conf_file(conf_path,section_opencv_utils,'sentence_output')[2]))
+video_input = ''.join((project_path,read_conf_file(conf_path,section_opencv_utils,'video_input')[2]))
+video_output = ''.join((project_path,read_conf_file(conf_path,section_opencv_utils,'video_output')[2]))
+face_detect_face_xml = ''.join((project_path,read_conf_file(conf_path,section_opencv_utils,'face_detect_face_xml')[2]))
+face_detect_eyes_xml = ''.join((project_path,read_conf_file(conf_path,section_opencv_utils,'face_detect_eyes_xml')[2]))
 
-image_input = ''.join((project_path,read_conf_file(conf_path,section_path,'image_input')[2]))
-image_output = ''.join((project_path,read_conf_file(conf_path,section_path,'image_output')[2]))
-character_output = ''.join((project_path,read_conf_file(conf_path,section_path,'character_output')[2]))
-sentence_output = ''.join((project_path,read_conf_file(conf_path,section_path,'sentence_output')[2]))
-video_input = ''.join((project_path,read_conf_file(conf_path,section_path,'video_input')[2]))
-video_output = ''.join((project_path,read_conf_file(conf_path,section_path,'video_output')[2]))
-aapt_path = ''.join((project_path,read_conf_file(conf_path,section_path,'aapt_path')[2]))
-
-android_apk_list = ''.join((project_path,read_conf_file(conf_path,section_path,'android_apk_list')[2]))
-appium_screenshot_path = ''.join((project_path,read_conf_file(conf_path,section_path,'appium_screenshot_path')[2]))
-appium_screenrecord_path = ''.join((project_path,read_conf_file(conf_path,section_path,'appium_screenrecord_path')[2]))
-qr_code_image_path = ''.join((project_path,read_conf_file(conf_path,section_path,'qr_code_image_path')[2]))
+# appium section
+aapt_path = ''.join((project_path,read_conf_file(conf_path,section_appium,'aapt_path')[2]))
+android_apk_list = ''.join((project_path,read_conf_file(conf_path,section_appium,'android_apk_list')[2]))
+appium_screenshot_path = ''.join((project_path,read_conf_file(conf_path,section_appium,'appium_screenshot_path')[2]))
+appium_screenrecord_path = ''.join((project_path,read_conf_file(conf_path,section_appium,'appium_screenrecord_path')[2]))
+qr_code_image_path = ''.join((project_path,read_conf_file(conf_path,section_appium,'qr_code_image_path')[2]))
 
 
 # machine learning section
