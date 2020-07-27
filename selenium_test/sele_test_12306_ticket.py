@@ -1,4 +1,3 @@
-# https://docs.python.org/3/using/windows.html
 from selenium.common.exceptions import NoAlertPresentException
 from selenium.common.exceptions import TimeoutException
 from python_common.file_and_system.file_utils import write_base64_to_image_file

@@ -25,8 +25,6 @@ def detect_and_display(face_frame):
 
 face_cascade_name = face_detect_face_xml
 eyes_cascade_name = face_detect_eyes_xml
-print(face_detect_eyes_xml)
-print(face_detect_face_xml)
 
 face_cascade = cv.CascadeClassifier()
 eyes_cascade = cv.CascadeClassifier()
