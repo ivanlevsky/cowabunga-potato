@@ -11,7 +11,7 @@ def bin_decode(byte):
     return binascii.a2b_hex(byte).decode()
 
 
-# used for web, like web page's url characters, like chinese
+# used for web, eg. web page's url characters, chinese characters
 def url_encode(string):
     return parse.quote(string)
 
