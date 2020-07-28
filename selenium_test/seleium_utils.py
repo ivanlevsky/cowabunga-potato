@@ -66,12 +66,27 @@ def wait_for_element_disappeared(driver, element, *max_time_out):
     WebDriverWait(driver, default_timeout).until(expected_conditions.invisibility_of_element(element))
 
 
+def wait_for_element_appeared(driver, element, *max_time_out):
+    default_timeout = 10
+    if max_time_out.__len__() != 0:
+        default_timeout = max_time_out[0]
+    WebDriverWait(driver, default_timeout).until(expected_conditions.visibility_of(element))
+
+
 def wait_for_element_to_be_clickable(driver, element_xpath, *max_time_out):
     default_timeout = 10
     if max_time_out.__len__() != 0:
         default_timeout = max_time_out[0]
     WebDriverWait(driver, default_timeout).until(
         expected_conditions.element_to_be_clickable((By.XPATH, element_xpath))).click()
+
+
+def wait_for_frame_and_switch_to_frame(driver, frame_name, *max_time_out):
+    default_timeout = 10
+    if max_time_out.__len__() != 0:
+        default_timeout = max_time_out[0]
+    WebDriverWait(driver, default_timeout).until(expected_conditions.
+                                                 frame_to_be_available_and_switch_to_it(frame_name))
 
 
 def find_element_by_xpath(driver, xpath):
