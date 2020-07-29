@@ -89,5 +89,26 @@ def wait_for_frame_and_switch_to_frame(driver, frame_name, *max_time_out):
                                                  frame_to_be_available_and_switch_to_it(frame_name))
 
 
+def wait_for_element_exist(driver, element_xpath, *max_time_out):
+    # This does not necessarily mean that the element is visible
+    default_timeout = 10
+    if max_time_out.__len__() != 0:
+        default_timeout = max_time_out[0]
+    WebDriverWait(driver, default_timeout).until(
+        expected_conditions.presence_of_element_located((By.XPATH, element_xpath)))
+
+
 def find_element_by_xpath(driver, xpath):
     return driver.find_element_by_xpath(xpath)
+
+
+def find_element_by_name(driver, name):
+    return driver.find_element_by_name(name)
+
+
+def find_element_by_id(driver, e_id):
+    return driver.find_element_by_id(e_id)
+
+
+def find_element_by_class_name(driver, e_class):
+    return driver.find_element_by_class_name(e_class)
