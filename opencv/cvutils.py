@@ -1,7 +1,6 @@
 from matplotlib import pyplot as plt
-from PIL import Image, ImageDraw, ImageFont
-from python_common.global_param import tesseract_path, qr_code_image_path
-
+from PIL import Image, ImageDraw, ImageFont, ImageGrab
+from python_common.global_param import tesseract_path, qr_code_image_path, test_video_path
 
 import numpy as np
 import pytesseract
@@ -135,7 +134,7 @@ def findTextAreaContours(ori, image, aspect_min, aspect_max, height_start_fix, w
         x, y, w, h = cv.boundingRect(cn)
         aspect_ratio = float(w) / h
         # print(aspect_ratio)
-        if aspect_ratio > aspect_min and aspect_ratio < aspect_max:
+        if aspect_min < aspect_ratio < aspect_max:
             ori = ori[y + height_start_fix:y + h + height_end_fix, x + width_start_fix:x + w + width_end_fix]
     return ori
 
@@ -231,6 +230,38 @@ def play_and_save_Video(video_path, save_path, video_scale, play_speed):
             break
 
     cap.release()
+    out.release()
+    cv.destroyAllWindows()
+
+
+def screen_record(record_offset_x, record_offset_y, record_width, record_height,video_codec, video_format,
+                  video_fps, scale, *max_time_out):
+    """
+    working format and codec combination for windows10:\r\n
+    video.avi: XVID, DIVX \r\n
+    video.mp4: acv1 (need put openh264-1.8.0-win64.dll in python file folder)
+    """
+    video_width = int(record_width*scale)
+    video_height = int(record_height*scale)
+    fourcc = cv.VideoWriter_fourcc(*video_codec)
+    init_time = 0
+    offset_x_width = record_offset_x+record_width
+    offset_y_height = record_offset_y+record_height
+    out = cv.VideoWriter(test_video_path+'output.'+video_format, fourcc, video_fps, (video_width, video_height))
+    while True:
+        img = ImageGrab.grab(bbox=(record_offset_x, record_offset_y, offset_x_width, offset_y_height))
+        img_np = np.array(img)
+        show_frame = resizeImage(cv.cvtColor(img_np, cv.COLOR_RGB2BGR), scale, scale, 1)
+        out.write(show_frame)
+
+        if max_time_out.__len__() != 0:
+            init_time += 1
+            if init_time > max_time_out[0]:
+                break
+        else:
+            cv.imshow("frame", show_frame)
+            if cv.waitKey(1) == ord("q"):
+                break
     out.release()
     cv.destroyAllWindows()
 

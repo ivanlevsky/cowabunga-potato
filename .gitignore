@@ -9,3 +9,4 @@
 /test file/chromedriver*
 /test file/datasets/
 /test file/appium/
+/opencv/openh264-1.8.0-win64.dll
