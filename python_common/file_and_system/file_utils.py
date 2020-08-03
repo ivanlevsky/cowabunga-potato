@@ -17,10 +17,5 @@ def read_file(file, encode):
     return text
 
 
-def write_base64_to_image_file(file, base64_value):
-    with open(file, 'wb') as f:
-        f.write(base64.b64decode(base64_value))
-
-
 def calculate_my_all_code_lines():
     return ''
