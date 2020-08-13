@@ -35,7 +35,8 @@ def set_train_location(depart_or_arrive, train_location):
 
 
 def select_station_list_by_tag(select_tag, location):
-    el = find_parent_element_by_xpath(app_driver, ''.join(('//android.view.View[@content-desc="', select_tag, '"]/..')))
+    # use "/.." to find parent element by xpath
+    el = find_element_by_xpath(app_driver, ''.join(('//android.view.View[@content-desc="', select_tag, '"]/..')))
     el = el.find_element_by_class_name('android.widget.ListView')
     el = el.find_elements_by_class_name('android.view.View')
     for e in el:

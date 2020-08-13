@@ -96,8 +96,8 @@ def find_element_by_xpath(driver, xpath):
     return driver.find_element_by_xpath(xpath)
 
 
-def find_parent_element_by_xpath(driver, child_xpath):
-    return driver.find_element_by_xpath(child_xpath)
+# def find_parent_element_by_xpath(driver, child_xpath):
+#     return driver.find_element_by_xpath(child_xpath)
 
 
 def save_screenshot(driver, path):
