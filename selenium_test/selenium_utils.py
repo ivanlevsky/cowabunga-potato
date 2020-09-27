@@ -6,9 +6,24 @@ from selenium.webdriver.support.select import Select
 from selenium.webdriver.common.keys import Keys
 
 
-def init_driver(browser_type):
+def init_driver(browser_type, *driver_path):
     if browser_type == 'edge':
         return webdriver.Edge()
+    if browser_type == 'chrome':
+        # webdriver.ChromeOptions.add_experimental_option("excludeSwitches", ["enable-automation"])
+        # webdriver.ChromeOptions.add_experimental_option('useAutomationExtension', False)
+        chrome_option = webdriver.ChromeOptions
+        chrome_option.add_experimental_option('excludeSwitches', ['enable-automation'])
+        chrome_option.add_experimental_option('useAutomationExtension', False)
+        chrome_option.add_experimental_option('prefs', {
+            'credentials_enable_service': False,
+            'profile': {
+                'password_manager_enabled': False
+            }
+        })
+        if driver_path.__len__() != 0:
+            webdriver_path = driver_path
+        return webdriver.Chrome(executable_path=webdriver_path, chrome_options=chrome_option)
 
 
 def close_driver(driver):
@@ -18,8 +33,8 @@ def close_driver(driver):
 def open_browser_single_tab(driver, url):
     driver.get(url)
     driver.maximize_window()
-    WebDriverWait(driver, 10).until(
-        lambda call_driver: driver.execute_script('return document.readyState') == 'complete')
+    # WebDriverWait(driver, 10).until(
+    #     lambda call_driver: driver.execute_script('return document.readyState') == 'complete')
 
 
 def open_browser_multi_tab(driver, urls, *timeout_between_tabs):
@@ -36,8 +51,6 @@ def switch_to_tab(driver, target_tab_url):
     for i in range(len(driver.window_handles)):
         driver.switch_to.window(driver.window_handles[i])
         if driver.current_url.__contains__(target_tab_url):
-            print(driver.current_url)
-            print(target_tab_url)
             break
 
 
