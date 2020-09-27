@@ -3,7 +3,7 @@ from selenium.common.exceptions import TimeoutException
 from python_common.file_and_system.file_utils import write_binary_to_file
 from python_common.file_and_system.windows_os_utils import kill_process_by_name
 from python_common.global_param import image_input
-from selenium_test.seleium_utils import *
+from selenium_test.selenium_utils import *
 
 kill_process_by_name('MicrosoftWebDriver.exe')
 driver = init_driver('edge')

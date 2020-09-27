@@ -1,4 +1,4 @@
-from selenium_test.seleium_utils import *
+from selenium_test.selenium_utils import *
 from python_common.file_and_system.windows_os_utils import *
 import time
 

@@ -1,4 +1,4 @@
-from selenium_test.seleium_utils import *
+from selenium_test.selenium_utils import *
 import time
 
 def select_languages(from_lang, to_lang):

@@ -1,4 +1,4 @@
-from selenium_test.seleium_utils import *
+from selenium_test.selenium_utils import *
 from python_common.file_and_system.windows_os_utils import kill_process_by_name
 from python_common.global_param import test_image_path
 from http_request.request_utils import request_download_file_by_url
