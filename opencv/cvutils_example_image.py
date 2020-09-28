@@ -66,3 +66,5 @@ OCR Engine modes:
   3    Default, based on what is available.
 '''
 ocrImage(input, 'chi_sim', '--psm 10 --oem 1')
+
+qr_code_decode()

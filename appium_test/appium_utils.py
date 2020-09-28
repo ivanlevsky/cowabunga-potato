@@ -15,6 +15,7 @@ desired_caps = dict(
     # enableWebviewDetailsCollection='true',
     # ensureWebviewsHavePages=True,
 
+    # https://blog.csdn.net/windanchaos/article/details/70210341
     # chromeOptions={
     #     "androidUseRunningApp": True,
     #     "androidDeviceSerial": "10ffcace",

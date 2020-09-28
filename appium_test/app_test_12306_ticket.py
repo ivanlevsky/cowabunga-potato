@@ -1,8 +1,6 @@
 from appium_test.appium_utils import *
 import time
 
-from python_common.global_param import appium_screenrecord_path
-
 bottom_click_elements = ('首页', '出行服务', '订单', '铁路会员', '我的')
 order_page_elements = ('未完成', '已支付', '候补订单', '本人车票')
 select_stations_list_tag = ('最近常用', '热门车站', 'A', 'B')
