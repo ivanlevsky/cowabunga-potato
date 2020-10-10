@@ -8,11 +8,11 @@ from selenium.webdriver.common.keys import Keys
 
 def init_driver(browser_type, *driver_path):
     if browser_type == 'edge':
-        return webdriver.Edge()
+        if driver_path.__len__() != 0:
+            webdriver_path = driver_path[0]
+        return webdriver.Edge(executable_path=webdriver_path)
     if browser_type == 'chrome':
-        # webdriver.ChromeOptions.add_experimental_option("excludeSwitches", ["enable-automation"])
-        # webdriver.ChromeOptions.add_experimental_option('useAutomationExtension', False)
-        chrome_option = webdriver.ChromeOptions
+        chrome_option = webdriver.ChromeOptions()
         chrome_option.add_experimental_option('excludeSwitches', ['enable-automation'])
         chrome_option.add_experimental_option('useAutomationExtension', False)
         chrome_option.add_experimental_option('prefs', {
@@ -21,9 +21,17 @@ def init_driver(browser_type, *driver_path):
                 'password_manager_enabled': False
             }
         })
+        chrome_option.binary_location = 'D:/Program Files/chromium/chrome.exe'
         if driver_path.__len__() != 0:
-            webdriver_path = driver_path
+            webdriver_path = driver_path[0]
         return webdriver.Chrome(executable_path=webdriver_path, chrome_options=chrome_option)
+    if browser_type == 'ie':
+        ie_option = webdriver.IeOptions()
+        ie_option.add_additional_option(ie_option.IGNORE_ZOOM_LEVEL, True)
+        ie_option.add_additional_option(ie_option.IGNORE_PROTECTED_MODE_SETTINGS, True)
+        if driver_path.__len__() != 0:
+            webdriver_path = driver_path[0]
+        return webdriver.Ie(executable_path=webdriver_path, ie_options=ie_option)
 
 
 def close_driver(driver):
