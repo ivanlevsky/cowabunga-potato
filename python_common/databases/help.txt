@@ -1,0 +1,28 @@
+mariadb(mysql)
+    CREATE USER 'username'@'host' IDENTIFIED BY 'password';
+    GRANT privileges ON databasename.tablename TO 'username'@'host'
+    FLUSH PRIVILEGES;
+    ---------------------------------------------------------------
+    command param
+        host:%, localhost, 192.168.129.222...
+        privileges:SELECT, INSERT....
+    eg:
+        CREATE USER 'debianmysql'@'%' IDENTIFIED BY 'debianmysqlpasswd';
+        (ERROR 1396 (HY000): Operation CREATE USER failed for 'debianmysql'@'%': run 'FLUSH PRIVILEGES')
+        GRANT ALL ON *.* TO 'debianmysql'@'%';
+
+    jdbc connect error: Connection refused: connect
+        use root , cd /etc/mysql/mariadb.conf.d, vi 50-server.cnf ,
+        comment line "bind-address            =127.0.0.1"
+        add line "bind-address            =0.0.0.0"
+
+
+postgresql
+    start server:
+        pg_ctlcluster 11 main start
+    change password:
+        sudo -u postgres psql
+    show database:
+        select * from pg_database
+
+    sudo more /etc/postgresql/11/main/pg_hba.conf
