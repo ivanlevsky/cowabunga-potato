@@ -8,6 +8,7 @@ section_opencv_utils = 'opencv_utils'
 section_machine_learning = 'machine_learning'
 section_appium = 'appium'
 section_selenium = 'selenium'
+section_databases = 'databases'
 
 # test_path section
 test_image_path = ''.join((project_path,read_conf_file(conf_path,section_test_path,'test_image_path')[2]))
@@ -50,3 +51,8 @@ chrome_driver_path = ''.join((project_path,read_conf_file(conf_path,section_sele
 ie_driver_path = ''.join((project_path,read_conf_file(conf_path,section_selenium,'ie_driver_path')[2]))
 edge_driver_path = ''.join((project_path,read_conf_file(conf_path,section_selenium,'edge_driver_path')[2]))
 chromium_path = read_conf_file(conf_path,section_selenium,'chromium_path')[2]
+
+# databases section
+mariadb_url = read_conf_file(conf_path,section_databases,'mariadb_url')[2]
+mariadb_user = read_conf_file(conf_path,section_databases,'mariadb_user')[2]
+mariadb_password = read_conf_file(conf_path,section_databases,'mariadb_password')[2]
