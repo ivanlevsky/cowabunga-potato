@@ -51,12 +51,7 @@ def execute_query(connection, sql):
     for rw in row_values:
         print(rw)
 
-# maria_connection = connect_to_databases('mariadb', '172.21.100.91', 3306, 'mysql', 'debianmysql', 'debianmysqlpasswd')
-# execute_query(maria_connection, 'select * from user')
 
-postgresql_connection = connect_to_databases('postgresql', '172.21.100.91', 5432, 'pgtest', 'debianpgsql',
-                                             'debianpgsqlpasswd')
-execute_query(postgresql_connection, 'select * from student')
 
 
 
