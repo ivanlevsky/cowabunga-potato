@@ -44,6 +44,11 @@ postgresql
 
     search postgres help:\h
     search psql command:\?
+    create user: CREATE USER username WITH PASSWORD 'password';
+    check user privilege:\du
+    user priviege:
+        grant all privileges on database database_name to user;
+        grant all privileges on all tables in schema public to user;
 
     mysql command in postgresql:
         show databases:
