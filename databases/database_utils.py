@@ -1,10 +1,16 @@
 import mariadb
 import psycopg2
+import sqlite3
 import sys
 
 
-def connect_to_databases(db_type, db_host, db_port, db_database, db_user, db_password):
-    conn = None
+def connect_to_databases(db_url, db_user, db_password):
+    db_url_params = db_url.split(':')
+    db_type = db_url_params[1]
+    db_host = db_url_params[2].replace('//','')
+    db_port = int(db_url_params[3].split('/')[0])
+    db_database = db_url_params[3].split('/')[1]
+    connection = None
     connect_params ={
         'user': db_user,
         'password': db_password,
@@ -12,9 +18,9 @@ def connect_to_databases(db_type, db_host, db_port, db_database, db_user, db_pas
         'port': db_port,
         'database': db_database
     }
-    if db_type == 'mariadb':
+    if db_type == 'mariadb' or db_type == 'mysql':
         try:
-            conn = mariadb.connect(
+            connection = mariadb.connect(
                 **connect_params
             )
         except mariadb.Error as e:
@@ -22,34 +28,43 @@ def connect_to_databases(db_type, db_host, db_port, db_database, db_user, db_pas
             sys.exit(1)
     elif db_type == 'postgresql':
         try:
-            conn = psycopg2.connect(
+            connection = psycopg2.connect(
                 **connect_params
             )
         except mariadb.Error as e:
-            print(f"Error connecting to MariaDB Platform: {e}")
+            print(f"Error connecting to PostgreSQL Platform: {e}")
             sys.exit(1)
-    conn.autocommit = False
-    return conn
+    # elif db_type == 'sqllite3':
+    #     try:
+    #         connection = sqlite3.connect(
+    #             **connect_params
+    #         )
+    #     except mariadb.Error as e:
+    #         print(f"Error connecting to PostgreSQL Platform: {e}")
+    #         sys.exit(1)
+    connection.autocommit = False
+    return connection
 
 
-def execute_query(connection, sql):
+def execute_sql(connection, sql, get_result):
     cur = connection.cursor()
     cur.execute(sql)
-    results = cur.fetchall()
-    col_names = []
-    row_values = []
-    for col in cur.description:
-        col_names.append(col[0])
-    row_values.append(col_names)
-    for row in results:
-        values = []
-        for value in row:
-            values.append(value)
-        row_values.append(values)
+    if get_result and type(get_result).__name__ == 'bool':
+        results = cur.fetchall()
+        col_names = []
+        row_values = []
+        for col in cur.description:
+            col_names.append(col[0])
+        row_values.append(col_names)
+        for row in results:
+            values = []
+            for value in row:
+                values.append(value)
+            row_values.append(values)
+        for rw in row_values:
+            print(rw)
     cur.close()
     connection.close()
-    for rw in row_values:
-        print(rw)
 
 
 
