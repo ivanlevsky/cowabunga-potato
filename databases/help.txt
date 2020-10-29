@@ -1,22 +1,36 @@
-mariadb(mysql)
-    create user and set privilege
-        CREATE USER 'username'@'host' IDENTIFIED BY 'password';
-        GRANT privileges ON databasename.tablename TO 'username'@'host'
-        FLUSH PRIVILEGES;
-        ---------------------------------------------------------------
-        command param
-            host:%, localhost, 192.168.129.222...
-            privileges:SELECT, INSERT....
-        eg:
-            CREATE USER 'debianmysql'@'%' IDENTIFIED BY 'debianmysqlpasswd';
-            (ERROR 1396 (HY000): Operation CREATE USER failed for 'debianmysql'@'%': run 'FLUSH PRIVILEGES')
-            GRANT ALL ON *.* TO 'debianmysql'@'%';
-
-    jdbc connect error: Connection refused: connect
-        use root , cd /etc/mysql/mariadb.conf.d, vi 50-server.cnf ,
-        comment line "bind-address            =127.0.0.1"
-        add line "bind-address            =0.0.0.0"
+vmware enviroment debian:
+close gnome desktop:
+    login into tty3 text terminal mode(CTRL+ALT+F3)
+    systemctl stop gdm  --stop gnome graphic login program
+    systemctl status gdm  --check gdm status
+    systemctl get-default  --get debian system start mode(gui:graphical.target)
+reset net ip:
+    nmcli networking off
+    nmcli networking on
 -------------------------------------------------------------------------------------
+|                               mariadb(mysql)                                      |
+-------------------------------------------------------------------------------------
+
+create user and set privilege
+    CREATE USER 'username'@'host' IDENTIFIED BY 'password';
+    GRANT privileges ON databasename.tablename TO 'username'@'host'
+    FLUSH PRIVILEGES;
+    ---------------------------------------------------------------
+    command param
+        host:%, localhost, 192.168.129.222...
+        privileges:SELECT, INSERT....
+    eg:
+        CREATE USER 'debianmysql'@'%' IDENTIFIED BY 'debianmysqlpasswd';
+        (ERROR 1396 (HY000): Operation CREATE USER failed for 'debianmysql'@'%': run 'FLUSH PRIVILEGES')
+        GRANT ALL ON *.* TO 'debianmysql'@'%';
+
+jdbc connect error: Connection refused: connect
+    use root , cd /etc/mysql/mariadb.conf.d, vi 50-server.cnf ,
+    comment line "bind-address            =127.0.0.1"
+    add line "bind-address            =0.0.0.0"
+
+-------------------------------------------------------------------------------------
+|                                   postgresql                                      |
 -------------------------------------------------------------------------------------
 postgresql
     start server:
@@ -63,3 +77,6 @@ postgresql
             1.\d table_name
             2.select column_name,data_type from information_schema.columns where table_name = 'table_name';
 
+-------------------------------------------------------------------------------------
+|                                      sqlite3                                      |
+-------------------------------------------------------------------------------------
