@@ -1,8 +1,9 @@
-from python_common.file_and_system.config_utils import *
-import os
+from python_common.file_and_system.config_utils import read_conf_file
+import os, sys
 
 project_path = os.path.dirname(os.getcwd())
 conf_path = ''.join((project_path + r'\test file\cf.properties'))
+
 section_test_path = 'test_path'
 section_opencv_utils = 'opencv_utils'
 section_machine_learning = 'machine_learning'
@@ -56,3 +57,6 @@ chromium_path = read_conf_file(conf_path,section_selenium,'chromium_path')[2]
 mariadb_url = read_conf_file(conf_path,section_databases,'mariadb_url')[2]
 mariadb_user = read_conf_file(conf_path,section_databases,'mariadb_user')[2]
 mariadb_password = read_conf_file(conf_path,section_databases,'mariadb_password')[2]
+pgsql_url = read_conf_file(conf_path,section_databases,'pgsql_url')[2]
+pgsql_user = read_conf_file(conf_path,section_databases,'pgsql_user')[2]
+pgsql_password = read_conf_file(conf_path,section_databases,'pgsql_password')[2]
