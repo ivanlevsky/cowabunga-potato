@@ -3,7 +3,11 @@ import os, sys
 
 project_path = os.path.dirname(os.getcwd())
 conf_path = ''.join((project_path + r'\test file\cf.properties'))
-
+# print(sys.path[0])
+# print(os.path.dirname(os.getcwd()))
+# print(os.path.dirname(os.path.realpath(__file__)))
+# print(sys.path[1])
+# conf_path = r'D:\ivanovsky\IdeaProjects\cowabunga-potato\test file\cf.properties'
 section_test_path = 'test_path'
 section_opencv_utils = 'opencv_utils'
 section_machine_learning = 'machine_learning'
@@ -60,3 +64,5 @@ mariadb_password = read_conf_file(conf_path,section_databases,'mariadb_password'
 pgsql_url = read_conf_file(conf_path,section_databases,'pgsql_url')[2]
 pgsql_user = read_conf_file(conf_path,section_databases,'pgsql_user')[2]
 pgsql_password = read_conf_file(conf_path,section_databases,'pgsql_password')[2]
+excel_datasets = ''.join((project_path,read_conf_file(conf_path,section_databases,'excel_datasets')[2]))
+csv_datasets = ''.join((project_path,read_conf_file(conf_path,section_databases,'csv_datasets')[2]))
