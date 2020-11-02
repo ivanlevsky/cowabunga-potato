@@ -14,3 +14,7 @@ def read_excel(excel_file, sheet_name, *remove_header, **excel_converter):
         result.pop(0)
     return result
 
+
+def write_excel(excel_file, excel_sheet_name, data):
+    with pd.ExcelWriter(excel_file) as writer:
+        pd.DataFrame(data).to_excel(writer, sheet_name=excel_sheet_name, index=False, header=False)
