@@ -34,14 +34,14 @@ def connect_to_databases(db_url, db_user, db_password):
         except psycopg2.Error as e:
             print(f"Error connecting to PostgreSQL Platform: {e}")
             sys.exit(1)
-    # elif db_type == 'sqllite3':
-    #     try:
-    #         connection = sqlite3.connect(
-    #             **connect_params
-    #         )
-    #     except mariadb.Error as e:
-    #         print(f"Error connecting to sqlite3 Platform: {e}")
-    #         sys.exit(1)
+    elif db_type == 'sqllite3':
+        try:
+            connection = sqlite3.connect(
+                # **connect_params
+            )
+        except sqlite3.Error as e:
+            print(f"Error connecting to sqlite3 Platform: {e}")
+            sys.exit(1)
     connection.autocommit = False
     return connection
 
@@ -52,7 +52,8 @@ def execute_sql(connection, sql, get_result, *execute_many_data):
         cur.executemany(sql, execute_many_data[0])
     else:
         cur.execute(sql)
-    connection.commit()
+    if not sql.lower().__contains__('select'):
+        connection.commit()
     row_values = []
     if get_result and type(get_result).__name__ == 'bool':
         results = cur.fetchall()
@@ -68,7 +69,7 @@ def execute_sql(connection, sql, get_result, *execute_many_data):
         for rw in row_values:
             print(rw)
     cur.close()
-    connection.close()
-    if sql.__contains__('select'):
+    # connection.close()
+    if sql.lower().__contains__('select'):
         return row_values
 
