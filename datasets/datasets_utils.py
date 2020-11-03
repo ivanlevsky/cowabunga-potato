@@ -15,6 +15,10 @@ def read_excel(excel_file, sheet_name, *remove_header, **excel_converter):
     return result
 
 
-def write_excel(excel_file, excel_sheet_name, data):
-    with pd.ExcelWriter(excel_file) as writer:
+def write_excel(excel_file, excel_sheet_name, data, *append_write):
+    excel_write_mode = 'w'
+    if append_write.__len__() != 0:
+        if append_write[0] and type(append_write[0]).__name__ == 'bool':
+            excel_write_mode = 'a'
+    with pd.ExcelWriter(excel_file, mode=excel_write_mode) as writer:
         pd.DataFrame(data).to_excel(writer, sheet_name=excel_sheet_name, index=False, header=False)
