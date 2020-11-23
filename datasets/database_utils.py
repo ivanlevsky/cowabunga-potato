@@ -52,7 +52,7 @@ def execute_sql(connection, sql, get_result, *execute_many_data):
         cur.executemany(sql, execute_many_data[0])
     else:
         cur.execute(sql)
-    if not sql.lower().__contains__('select'):
+    if not sql.lower().strip().startswith('select'):
         connection.commit()
     row_values = []
     if get_result and type(get_result).__name__ == 'bool':
