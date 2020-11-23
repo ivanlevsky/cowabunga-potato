@@ -22,3 +22,14 @@ def write_excel(excel_file, excel_sheet_name, data, *append_write):
             excel_write_mode = 'a'
     with pd.ExcelWriter(excel_file, mode=excel_write_mode) as writer:
         pd.DataFrame(data).to_excel(writer, sheet_name=excel_sheet_name, index=False, header=False)
+
+
+def write_csv(csv_file, data, *append_write):
+    csv_write_mode = 'w'
+    if append_write.__len__() != 0:
+        if append_write[0] and type(append_write[0]).__name__ == 'bool':
+            csv_write_mode = 'a'
+    with open(csv_file, csv_write_mode) as writer:
+        pd.DataFrame(data).to_csv(writer, encoding = 'utf-8', index=False, header=False, line_terminator='\n')
+
+

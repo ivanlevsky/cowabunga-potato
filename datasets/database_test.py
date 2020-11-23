@@ -1,6 +1,6 @@
 from datasets.database_utils import connect_to_databases, execute_sql
-from datasets.datasets_utils import read_excel, write_excel
-from python_common.global_param import mariadb_url, mariadb_user, mariadb_password, excel_datasets
+from datasets.datasets_utils import read_excel, write_excel, write_csv
+from python_common.global_param import mariadb_url, mariadb_user, mariadb_password, excel_datasets, csv_datasets
 from python_common.global_param import pgsql_url,pgsql_user,pgsql_password
 
 # create table
@@ -48,6 +48,7 @@ postgresql_connection = connect_to_databases(pgsql_url, pgsql_user, pgsql_passwo
 pgsql_row_values = execute_sql(postgresql_connection,  query_sql, True)
 postgresql_connection.close()
 write_excel(excel_datasets,'movie_maria', mariadb_row_values,False)
+write_csv(csv_datasets, mariadb_row_values, False)
 write_excel(excel_datasets,'movie_pg', pgsql_row_values,True)
 
 
