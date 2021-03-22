@@ -102,12 +102,12 @@ def wait_for_element_to_be_clickable(driver, element_xpath, *max_time_out):
         expected_conditions.element_to_be_clickable((By.XPATH, element_xpath))).click()
 
 
-def wait_for_frame_and_switch_to_frame(driver, frame_name, *max_time_out):
+def wait_for_frame_and_switch_to_frame(driver, frame_id, *max_time_out):
     default_timeout = 10
     if max_time_out.__len__() != 0:
         default_timeout = max_time_out[0]
     WebDriverWait(driver, default_timeout).until(expected_conditions.
-                                                 frame_to_be_available_and_switch_to_it(frame_name))
+                                                 frame_to_be_available_and_switch_to_it(frame_id))
 
 
 def wait_for_element_exist(driver, element_xpath, *max_time_out):
