@@ -4,7 +4,7 @@ from python_common.global_param import ie_driver_path,chrome_driver_path,edge_dr
 
 kill_process_by_name('MicrosoftWebDriver.exe')
 kill_process_by_name('chromedriver.exe')
-kill_process_by_name('MicrosoftWebDriver.exe')
+kill_process_by_name('IEDriverServer.exe')
 chrome_driver = init_driver('chrome', chrome_driver_path)
 open_browser_single_tab(chrome_driver,'https://www.baidu.com')
 chrome_driver.quit()
