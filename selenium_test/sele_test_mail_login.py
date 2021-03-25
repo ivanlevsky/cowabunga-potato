@@ -1,14 +1,14 @@
 from selenium_test.selenium_utils import *
 from python_common.file_and_system.windows_os_utils import kill_process_by_name
-from python_common.global_param import test_image_path
+from python_common.global_param import test_image_path, edge_driver_path
 from http_request.request_utils import request_download_file_by_url
 from opencv.cvutils import *
 import time
 
 kill_process_by_name('MicrosoftWebDriver.exe')
 # mail_lists=['mail.hoperun.com', 'mail.qq.com', 'mail.163.com]
-mail_lists = ['mail.163.com']
-mail_driver = init_driver('edge')
+mail_lists = ['mail.hoperun.com']
+mail_driver = init_driver('edge',edge_driver_path)
 open_browser_multi_tab(mail_driver, mail_lists)
 wait_for_page_full_loaded(mail_driver)
 
@@ -25,6 +25,20 @@ def hoperun_login(hoperun_driver, user_name, user_pass):
     element.send_keys(user_pass)
     element = find_element_by_id(hoperun_driver, 'wmSubBtn')
     element.click()
+
+
+def hoperun_check_mail(hoperun_driver, mail_sender, mail_title):
+    wait_for_frame_and_switch_to_frame(hoperun_driver, 'treeBox')
+    element = find_element_by_id(hoperun_driver, 'tree_folder_1_span')
+    element.click()
+    wait_for_page_full_loaded(hoperun_driver)
+    wait_for_frame_and_switch_to_frame(hoperun_driver, 'tabsHome')
+    wait_for_page_full_loaded(hoperun_driver)
+    element = hoperun_driver.find_elements_by_xpath(''.join(('//div[text()="',mail_sender,'"]/../../../..')))
+    for e in element:
+        if e.find_element_by_xpath('li[2]/div[3]/span').text.__contains__(mail_title):
+            e.find_element_by_xpath('li[2]/div[3]/span').click()
+
 
 
 def qq_login(qq_driver, user_name, user_pass):
@@ -75,6 +89,7 @@ def netcase_163_login(netcase_163_driver, user_name, user_pass):
 
     element = find_element_by_class_name(netcase_163_driver, 'yidun_tips__point')
     print(element.location)
+
     # element = find_element_by_class_name(netcase_163_driver, 'yidun_tips__point')
     # print(element.get_attribute("innerHTML"))
 
@@ -88,6 +103,13 @@ def qq_captcha_pass():
 
 def netcase_captcha_pass():
     return ''
+
+# login hoperun mail and check mail
+hoperun_login(mail_driver, 'user', 'password')
+wait_for_page_full_loaded(mail_driver)
+hoperun_check_mail(mail_driver, 'sender', 'title')
+
+
 
 # qq_login(mail_driver, '', '')
 # netcase_163_login(mail_driver, '', '')
