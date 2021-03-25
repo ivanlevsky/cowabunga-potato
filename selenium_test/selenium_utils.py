@@ -46,6 +46,7 @@ def open_browser_single_tab(driver, url):
 
 
 def open_browser_multi_tab(driver, urls, *timeout_between_tabs):
+    driver.maximize_window()
     for i in range(len(urls)):
         driver.get(urls[i])
         WebDriverWait(driver, 10).until(
