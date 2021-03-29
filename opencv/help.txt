@@ -1,5 +1,0 @@
-reference links:
-  https://www.pyimagesearch.com/2017/07/10/using-tesseract-ocr-python/
-  https://www.pyimagesearch.com/2015/11/30/detecting-machine-readable-zones-in-passport-images/
-  https://github.com/cisco/openh264/releases
-  https://code.tutsplus.com/tutorials/how-to-build-a-python-bot-that-can-play-web-games--active-11117
