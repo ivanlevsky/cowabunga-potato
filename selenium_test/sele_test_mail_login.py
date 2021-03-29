@@ -7,7 +7,7 @@ import time
 
 kill_process_by_name('MicrosoftWebDriver.exe')
 # mail_lists=['mail.hoperun.com', 'mail.qq.com', 'mail.163.com]
-mail_lists = ['mail.hoperun.com']
+mail_lists = ['mail.163.com']
 mail_driver = init_driver('edge',edge_driver_path)
 open_browser_multi_tab(mail_driver, mail_lists)
 wait_for_page_full_loaded(mail_driver)
@@ -38,7 +38,6 @@ def hoperun_check_mail(hoperun_driver, mail_sender, mail_title):
     for e in element:
         if e.find_element_by_xpath('li[2]/div[3]/span').text.__contains__(mail_title):
             e.find_element_by_xpath('li[2]/div[3]/span').click()
-
 
 
 def qq_login(qq_driver, user_name, user_pass):
@@ -77,21 +76,38 @@ def netcase_163_login(netcase_163_driver, user_name, user_pass):
     element.send_keys(user_pass)
     element = find_element_by_id(netcase_163_driver, 'dologin')
     element.click()
-    wait_for_element_exist(netcase_163_driver,'//div[@class="yidun_panel"]')
-    element = find_element_by_class_name(netcase_163_driver, 'yidun_panel')
-    netcase_163_driver.execute_script("arguments[0].style['display'] = 'block';",element)
-    # element = find_element_by_class_name(netcase_163_driver, 'yidun_bg-img')
-    # netcase_mail_captcha = element.get_attribute('src')
-    # request_download_file_by_url(netcase_mail_captcha, test_image_path+'test_netcase_mail_captcha.png')
-    time.sleep(4)
-    element = find_element_by_class_name(netcase_163_driver, 'yidun_refresh')
-    element.click()
-
-    element = find_element_by_class_name(netcase_163_driver, 'yidun_tips__point')
-    print(element.location)
-
+    #------------------------security mail captcha not show----------------------
+    # wait_for_element_exist(netcase_163_driver,'//div[@class="yidun_panel"]')
+    # element = find_element_by_class_name(netcase_163_driver, 'yidun_panel')
+    # netcase_163_driver.execute_script("arguments[0].style['display'] = 'block';",element)
+    # # element = find_element_by_class_name(netcase_163_driver, 'yidun_bg-img')
+    # # netcase_mail_captcha = element.get_attribute('src')
+    # # request_download_file_by_url(netcase_mail_captcha, test_image_path+'test_netcase_mail_captcha.png')
+    # time.sleep(4)
+    # element = find_element_by_class_name(netcase_163_driver, 'yidun_refresh')
+    # element.click()
+    #
     # element = find_element_by_class_name(netcase_163_driver, 'yidun_tips__point')
-    # print(element.get_attribute("innerHTML"))
+    # print(element.location)
+    #
+    # # element = find_element_by_class_name(netcase_163_driver, 'yidun_tips__point')
+    # # print(element.get_attribute("innerHTML"))
+    #------------------------security mail captcha not show----------------------
+
+
+def netcase_163_check_mail(netcase_163_driver, mail_sender, mail_title):
+    wait_for_element_to_be_clickable(netcase_163_driver, '//div[@id="_mail_component_140_140"]/span[@title="收件箱"]')
+    time.sleep(2)
+    # rF0 kw0 nui-txt-flag0 : not read
+    # rF0 nui-txt-flag0 : readed
+    # element = netcase_163_driver.find_elements_by_xpath('//div[@class="rF0 nui-txt-flag0"]/div/div[2]/span')
+    element = netcase_163_driver.find_elements_by_xpath('//div[@class="rF0 nui-txt-flag0"]')
+    for e in element:
+        print(e.find_element_by_xpath('.//div/div[2]/span').text)
+        # if e.text.__contains__(mail_title):
+        #     print(e.text)
+
+
 
 
 def qq_captcha_pass():
@@ -105,11 +121,13 @@ def netcase_captcha_pass():
     return ''
 
 # login hoperun mail and check mail
-hoperun_login(mail_driver, 'user', 'password')
+# hoperun_login(mail_driver, 'user', 'password')
+# wait_for_page_full_loaded(mail_driver)
+# hoperun_check_mail(mail_driver, 'sender', 'title')
+
+netcase_163_login(mail_driver, '****', '****')
 wait_for_page_full_loaded(mail_driver)
-hoperun_check_mail(mail_driver, 'sender', 'title')
-
-
+netcase_163_check_mail(mail_driver, '', '123')
 
 # qq_login(mail_driver, '', '')
 # netcase_163_login(mail_driver, '', '')
