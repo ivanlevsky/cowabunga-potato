@@ -36,7 +36,7 @@ def android_aapt_install():
     print(get_command_output('adb shell chmod 0755 /data/local/tmp/aapt-arm-pie'))
 
 
-# https://gist.github.com/Pulimet/5013acf2cd5b28e55036c82c91bd56d8
+
 def android_home_button():
     get_shell_output(['adb', 'shell'], 'am start -W -c android.intent.category.HOME -a android.intent.action.MAIN')
 
@@ -101,3 +101,18 @@ def android_check_screen_is_locked():
 # pkg, laun = android_search_package_by_name('微信')
 # print(pkg)
 # print(laun)
+
+def android_find_app_user_id(app_package):
+    cmd = ''.join(('dumpsys package ',app_package,' | grep userId'))
+    msg = get_shell_output(['adb', 'shell'], cmd)
+    return msg
+
+
+def android_backup_app_apk(app_package, backup_path):
+    cmd = ''.join(('pm path ',app_package))
+    msg = get_shell_output(['adb', 'shell'], cmd)
+    cmd = ''.join(('adb pull ', msg.replace('package:','').strip(),' ', backup_path))
+    get_command_output(cmd)
+
+
+
