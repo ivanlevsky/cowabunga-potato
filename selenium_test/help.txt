@@ -1,5 +1,0 @@
-reference links:
-    https://www.guru99.com/selenium-tutorial.html
-    https://stackoverflow.com/questions/10720325/selenium-webdriver-wait-for-complex-page-with-javascript-to-load
-    https://www.selenium.dev/documentation/en/driver_idiosyncrasies/driver_specific_capabilities/
-    https://zhuanlan.zhihu.com/p/191033198
