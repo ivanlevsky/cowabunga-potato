@@ -6,7 +6,7 @@ def kill_process_by_name(name):
 
 
 def run_process_by_name(name):
-    os.system(name)
+    subprocess.Popen(name)
 
 
 def check_process_running(name):
