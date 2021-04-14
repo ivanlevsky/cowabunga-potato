@@ -1,4 +1,4 @@
-import unittest
+import unittest, os
 from python_common.crypto_utils import CryptoUtils
 
 
@@ -15,6 +15,7 @@ class TestCryptoUtils(unittest.TestCase):
         cls.hash_text = 'sai yo na na'
         cls.hash_salt_key = '时不利兮骓不逝'
         cls.hash_encoded_text = '296362f6cddd7032a20b9c4bc8c4b799'
+        cls.filepath = os.path.dirname(os.getcwd()) + '\\LICENSE'
 
     def test_bin_encode(self):
         self.assertEqual(self.bin_encoded_text, CryptoUtils.bin_encode(self.bin_decoded_text))
@@ -39,8 +40,17 @@ class TestCryptoUtils(unittest.TestCase):
                          CryptoUtils.hash_calculate(self.hash_salt_key, self.hash_type, self.hash_text))
 
     def test_file_checksum(self):
-        self.skipTest('test_file_checksum : check sum file not prepared')
-        print(CryptoUtils.file_checksum(r'D:\file.txt','sha1',65535))
+        with self.subTest():
+            self.assertEqual('B42A17A0F83B737FAF403CAA6B2641AF', CryptoUtils.file_checksum(self.filepath,'md5',65535))
+        with self.subTest():
+            self.assertEqual('29D1871D6CD6CBDA3D35AB3A1448E58822FA1D55',
+                             CryptoUtils.file_checksum(self.filepath,'sha1',65535))
+        with self.subTest():
+            self.assertEqual('9F2C16E91B305CC547E159DEDC4E34BDE312B120CB2749E418739C01774156FE',
+                             CryptoUtils.file_checksum(self.filepath,'sha256',65535))
+        with self.subTest():
+            self.assertEqual('7A450B78',
+                             CryptoUtils.file_checksum(self.filepath,'crc32',65535))
 
 
 if __name__ == '__main__':
