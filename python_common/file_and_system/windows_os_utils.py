@@ -35,4 +35,4 @@ class WindowsOsUtil:
     @staticmethod
     def get_shell_output(shell_cmd, execute_cmd):
         shell_cmd.append(execute_cmd)
-        return subprocess.Popen(shell_cmd, stdout=subprocess.PIPE).communicate()[0].decode('utf8')
+        return subprocess.Popen(shell_cmd, stdout=subprocess.PIPE).communicate()[0].decode('utf8').strip()
