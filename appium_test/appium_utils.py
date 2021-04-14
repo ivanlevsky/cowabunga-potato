@@ -33,7 +33,8 @@ def init_driver(phone_type, server_url, init_app_name):
             raise Exception('please unlock android screen!!!')
         desired_caps.__setitem__('platformVersion', android_version())
         desired_caps.__setitem__('platformName', 'Android')
-        desired_caps.__setitem__('udid', android_device_list())
+        # desired_caps.__setitem__('udid', android_device_list()), udid not working one realme q2
+        desired_caps.__setitem__('deviceName', android_device_list())
         if init_app_name is not None:
             app_background, app_pack = check_app_status(init_app_name)
     desired_caps.__setitem__('noReset', 'True')
