@@ -1,5 +1,5 @@
 from python_common.file_and_system.windows_os_utils import WindowsOsUtil
-from python_common.string_utils import *
+from python_common.string_utils import StringUtils, re
 from python_common.global_param import aapt_path,android_apk_list
 from python_common.file_and_system.file_utils import *
 
@@ -22,7 +22,7 @@ def android_current_opened_app_info():
     msg_split_two = ''
     if adb_dumpsys_window_msg.__contains__('mCurrentFocus'):
         msg = WindowsOsUtil.get_shell_output(['adb', 'shell'], 'dumpsys window windows | grep -E \'mCurrentFocus|mFocusedApp\'')
-        msg = split_string_by_regex('{|}', msg)[1].split(' ')[2]
+        msg = StringUtils.split_string_by_regex('{|}', msg)[1].split(' ')[2]
         msg_split_one = msg.split('/')[0]
         msg_split_two = msg.split('/')[1]
     elif adb_dumpsys_window_msg.__contains__('mSurface'):
@@ -38,7 +38,7 @@ def android_check_app_active(app_package):
     msg = WindowsOsUtil.get_shell_output(['adb', 'shell'], 'dumpsys window windows | grep -e \'Window #\'').split('\r\n')
     for m in msg:
         if m.__contains__(app_package):
-            msg = split_string_by_regex('{|}', m.strip())[1].split(' ')[2]
+            msg = StringUtils.split_string_by_regex('{|}', m.strip())[1].split(' ')[2]
             return msg.split('/')[0], msg.split('/')[1]
     return 'not_find', 'not_find'
 

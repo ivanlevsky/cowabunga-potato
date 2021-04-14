@@ -1,4 +1,4 @@
-from python_common.string_utils import split_string_by_numbers
+from python_common.string_utils import StringUtils
 
 
 # convert string bytes data to binary string list
@@ -57,7 +57,7 @@ def qr_code_encode(text):
     if diff_number_mod == 1:
         text_bit_string = ''.join((text_bit_string, '11101100'))
 
-    final_text_bit_string_list = split_string_by_numbers(text_bit_string, 8)
+    final_text_bit_string_list = StringUtils.split_string_by_numbers(text_bit_string, 8)
     print(final_text_bit_string_list.__len__())
     for e in final_text_bit_string_list:
         print(f'{int(e, base=2):02x}')
