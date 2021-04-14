@@ -55,13 +55,14 @@ class CryptoUtils:
     @staticmethod
     # file checksum using md5, sha1, sha256, crc32...
     def file_checksum(file, checksum_type, buffersize):
+        hash_type = ''
         if checksum_type == 'md5':
             hash_type = hashlib.md5()
         elif checksum_type == 'sha1':
             hash_type = hashlib.sha1()
         elif checksum_type == 'sha256':
             hash_type = hashlib.sha256()
-        else:
+        elif checksum_type != 'crc32':
             return None
 
         crc_value = 0
@@ -75,5 +76,4 @@ class CryptoUtils:
                     hash_type.update(buffer)
                 checksum = hash_type.hexdigest()
 
-        return checksum
-
+        return checksum.upper()
