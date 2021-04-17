@@ -1,7 +1,7 @@
-from python_common.file_and_system.windows_os_utils import WindowsOsUtil
+from file_and_system.windows_os_utils import WindowsOsUtil
 from python_common.string_utils import StringUtils, re
-from python_common.global_param import aapt_path,android_apk_list
-from python_common.file_and_system.file_utils import *
+from python_common.global_param import GlobalParam
+from file_and_system.file_utils import *
 
 
 def android_device_list():
@@ -21,13 +21,14 @@ def android_current_opened_app_info():
     msg_split_one = ''
     msg_split_two = ''
     if adb_dumpsys_window_msg.__contains__('mCurrentFocus'):
-        msg = WindowsOsUtil.get_shell_output(['adb', 'shell'], 'dumpsys window windows | grep -E \'mCurrentFocus|mFocusedApp\'')
+        msg = WindowsOsUtil.get_shell_output(['adb', 'shell'],
+                                             'dumpsys window windows | grep -E \'mCurrentFocus|mFocusedApp\'')
         msg = StringUtils.split_string_by_regex('{|}', msg)[1].split(' ')[2]
         msg_split_one = msg.split('/')[0]
         msg_split_two = msg.split('/')[1]
     elif adb_dumpsys_window_msg.__contains__('mSurface'):
         msg = WindowsOsUtil.get_shell_output(['adb', 'shell'], 'dumpsys window windows | grep -E \'mSurface=Surface\'')
-        msg = re.findall('mSurface=Surface\\(name=' + '(.+?)'+'/'+'(.+?)'+'\)/@',msg)
+        msg = re.findall('mSurface=Surface\\(name=' + '(.+?)' + '/' + '(.+?)' + '\\)/@', msg)
         msg_split_one = msg.__getitem__(0)[0]
         msg_split_two = msg.__getitem__(0)[1]
 
@@ -35,7 +36,8 @@ def android_current_opened_app_info():
 
 
 def android_check_app_active(app_package):
-    msg = WindowsOsUtil.get_shell_output(['adb', 'shell'], 'dumpsys window windows | grep -e \'Window #\'').split('\r\n')
+    msg = WindowsOsUtil.get_shell_output(['adb', 'shell'], 'dumpsys window windows | grep -e \'Window #\'').split(
+        '\r\n')
     for m in msg:
         if m.__contains__(app_package):
             msg = StringUtils.split_string_by_regex('{|}', m.strip())[1].split(' ')[2]
@@ -44,13 +46,13 @@ def android_check_app_active(app_package):
 
 
 def android_aapt_install():
-    print(WindowsOsUtil.get_command_output(' '.join(('adb push', aapt_path, '/data/local/tmp'))))
+    print(WindowsOsUtil.get_command_output(' '.join(('adb push', GlobalParam.get_aapt_path(), '/data/local/tmp'))))
     print(WindowsOsUtil.get_command_output('adb shell chmod 0755 /data/local/tmp/aapt-arm-pie'))
 
 
-
 def android_home_button():
-    WindowsOsUtil.get_shell_output(['adb', 'shell'], 'am start -W -c android.intent.category.HOME -a android.intent.action.MAIN')
+    WindowsOsUtil.get_shell_output(['adb', 'shell'],
+                                   'am start -W -c android.intent.category.HOME -a android.intent.action.MAIN')
 
 
 def android_all_package_list():
@@ -76,7 +78,7 @@ def android_all_package_list():
             launch = android_search_app_activity(pkg)
         package_list.append(','.join((pkg, name, launch)))
 
-    write_string_to_file(android_apk_list, package_list,'utf8')
+    write_string_to_file(GlobalParam.get_android_apk_list(), package_list, 'utf8')
     return package_list
 
 
@@ -98,10 +100,10 @@ def android_search_app_activity(app_package):
 
 
 def android_search_package_by_name(app_name):
-    read_list = list(read_file(android_apk_list, 'utf8').strip('][').replace('\'', '').split(', '))
+    read_list = list(read_file(GlobalParam.get_android_apk_list(), 'utf8').strip('][').replace('\'', '').split(', '))
     for rl in read_list:
         if rl.__contains__(app_name):
-            return rl.split(',')[0],rl.split(',')[2]
+            return rl.split(',')[0], rl.split(',')[2]
 
 
 def android_check_screen_is_locked():
@@ -115,14 +117,13 @@ def android_check_screen_is_locked():
 # print(laun)
 
 def android_find_app_user_id(app_package):
-    cmd = ''.join(('dumpsys package ',app_package,' | grep userId'))
+    cmd = ''.join(('dumpsys package ', app_package, ' | grep userId'))
     msg = WindowsOsUtil.get_shell_output(['adb', 'shell'], cmd)
     return msg
 
 
 def android_backup_app_apk(app_package, backup_path):
-    cmd = ''.join(('pm path ',app_package))
+    cmd = ''.join(('pm path ', app_package))
     msg = WindowsOsUtil.get_shell_output(['adb', 'shell'], cmd)
-    cmd = ''.join(('adb pull ', msg.replace('package:','').strip(),' ', backup_path))
+    cmd = ''.join(('adb pull ', msg.replace('package:', '').strip(), ' ', backup_path))
     WindowsOsUtil.get_command_output(cmd)
-
