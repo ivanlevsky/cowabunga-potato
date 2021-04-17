@@ -1,5 +1,5 @@
 import unittest,warnings
-from python_common.file_and_system.windows_os_utils import WindowsOsUtil
+from file_and_system.windows_os_utils import WindowsOsUtil
 
 
 class TestWindowsOsUtil(unittest.TestCase):
