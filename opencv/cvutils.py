@@ -1,6 +1,6 @@
 from matplotlib import pyplot as plt
 from PIL import Image, ImageDraw, ImageFont, ImageGrab
-from python_common.global_param import tesseract_path, qr_code_image_path, test_video_path
+from python_common.global_param import GlobalParam
 
 import numpy as np
 import pytesseract
@@ -10,7 +10,7 @@ import cv2 as cv
 plt.rcParams['font.sans-serif'] = ['Microsoft YaHei']
 
 interpolationType = {1: cv.INTER_NEAREST, 2: cv.INTER_LINEAR, 3: cv.INTER_AREA, 4: cv.INTER_CUBIC, 5: cv.INTER_LANCZOS4}
-pytesseract.pytesseract.tesseract_cmd = tesseract_path
+pytesseract.pytesseract.tesseract_cmd = GlobalParam.get_tesseract_path()
 
 
 def ocrImage(image, ocr_lang, ocr_config):
@@ -247,7 +247,7 @@ def screen_record(record_offset_x, record_offset_y, record_width, record_height,
     init_time = 0
     offset_x_width = record_offset_x+record_width
     offset_y_height = record_offset_y+record_height
-    out = cv.VideoWriter(test_video_path+'output.'+video_format, fourcc, video_fps, (video_width, video_height))
+    out = cv.VideoWriter(GlobalParam.get_test_video_path()+'output.'+video_format, fourcc, video_fps, (video_width, video_height))
     while True:
         img = ImageGrab.grab(bbox=(record_offset_x, record_offset_y, offset_x_width, offset_y_height))
         img_np = np.array(img)
@@ -267,8 +267,7 @@ def screen_record(record_offset_x, record_offset_y, record_width, record_height,
 
 
 def qr_code_decode():
-    img = cv.imread(qr_code_image_path, cv.IMREAD_GRAYSCALE)
+    img = cv.imread(GlobalParam.get_qr_code_image_path(), cv.IMREAD_GRAYSCALE)
     decoded_text = cv.QRCodeDetector().detectAndDecode(img)
     return decoded_text[0]
-
 

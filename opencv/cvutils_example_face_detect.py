@@ -1,5 +1,5 @@
 import cv2 as cv
-from python_common.global_param import face_detect_eyes_xml, face_detect_face_xml
+from python_common.global_param import GlobalParam
 
 # get face detect datasets xml from https://github.com/opencv/opencv/blob/master/data/haarcascades/
 def detect_and_display(face_frame):
@@ -23,8 +23,8 @@ def detect_and_display(face_frame):
     cv.imshow('Capture - Face detection', face_frame)
 
 
-face_cascade_name = face_detect_face_xml
-eyes_cascade_name = face_detect_eyes_xml
+face_cascade_name = GlobalParam.get_face_detect_face_xml()
+eyes_cascade_name = GlobalParam.get_face_detect_eyes_xml()
 
 face_cascade = cv.CascadeClassifier()
 eyes_cascade = cv.CascadeClassifier()
