@@ -1,4 +1,4 @@
-from python_common.file_and_system.android_os_utils import *
+from file_and_system.android_os_utils import *
 from appium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
