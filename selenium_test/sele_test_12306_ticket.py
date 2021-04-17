@@ -1,12 +1,12 @@
 from selenium.common.exceptions import NoAlertPresentException
 from selenium.common.exceptions import TimeoutException
-from python_common.file_and_system.file_utils import write_binary_to_file
-from python_common.file_and_system.windows_os_utils import kill_process_by_name
-from python_common.global_param import image_input
+from file_and_system.file_utils import write_binary_to_file
+from file_and_system.windows_os_utils import WindowsOsUtil
+from python_common.global_param import GlobalParam
 from selenium_test.selenium_utils import *
 
-kill_process_by_name('MicrosoftWebDriver.exe')
-driver = init_driver('edge')
+WindowsOsUtil.kill_process_by_name('MicrosoftWebDriver.exe')
+driver = init_driver('edge', GlobalParam.get_edge_driver_path())
 open_browser_single_tab(driver,'https://www.12306.cn/index/')
 
 # wait dom return complete state
@@ -22,7 +22,7 @@ try:
     # get captcha picture
     img_text = find_element_by_xpath(driver, '//img[@id="J-loginImg"]').get_attribute('src')[
               len('data:image/jpg;base64,'):]
-    write_binary_to_file(image_input, img_text)
+    write_binary_to_file(GlobalParam.get_image_input(), img_text)
 
     find_element_by_xpath(driver, '//input[@id="J-userName"]').send_keys('username')
     find_element_by_xpath(driver, '//input[@id="J-password"]').send_keys('password')
