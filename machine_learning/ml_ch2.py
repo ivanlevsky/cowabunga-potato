@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 from sklearn.base import BaseEstimator, TransformerMixin
 
-from python_common.global_param import ml_ch2_housing_data, ml_ch2_housing_image
+from python_common.global_param import GlobalParam
 from urllib import request
 from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
@@ -38,10 +38,10 @@ class CombinedAttributesAdder(BaseEstimator, TransformerMixin):
             return np.c_[X, rooms_per_household, population_per_household]
 
 
-def fetch_housing_data(housing_url=HOUSING_URL, housing_path=ml_ch2_housing_data):
+def fetch_housing_data(housing_url=HOUSING_URL, housing_path=GlobalParam.get_ml_ch2_housing_data()):
     if not os.path.isdir(housing_path):
         os.makedirs(housing_path)
-        print(ml_ch2_housing_data)
+        print(GlobalParam.get_ml_ch2_housing_data())
         tgz_path = os.path.join(housing_path, "housing.tgz")
         request.urlretrieve(housing_url, tgz_path)
         housing_tgz = tarfile.open(tgz_path)
@@ -49,13 +49,13 @@ def fetch_housing_data(housing_url=HOUSING_URL, housing_path=ml_ch2_housing_data
         housing_tgz.close()
 
 
-def load_housing_data(housing_path=ml_ch2_housing_data):
+def load_housing_data(housing_path=GlobalParam.get_ml_ch2_housing_data()):
     csv_path = os.path.join(housing_path, "housing.csv")
     return pd.read_csv(csv_path)
 
 
 def visualizing_geographical_data(train_set_data):
-    california_img=mpimg.imread(ml_ch2_housing_image)
+    california_img=mpimg.imread(GlobalParam.get_ml_ch2_housing_image())
     visual_housing = train_set_data.copy()
     visual_housing.plot(kind="scatter", x="longitude", y="latitude", figsize=(10,7),
                              s=visual_housing['population']/100, label="Population",

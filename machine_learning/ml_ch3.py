@@ -5,7 +5,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import cross_val_predict, cross_val_score
 from sklearn.metrics import confusion_matrix, precision_recall_curve, roc_curve
 from sklearn.preprocessing import StandardScaler
-from python_common.global_param import ml_ch3_sklearn_data_home
+from python_common.global_param import GlobalParam
 from sklearn.datasets import fetch_openml
 from sklearn.linear_model import SGDClassifier
 
@@ -34,7 +34,7 @@ def sort_by_target(mnist):
     mnist.target[60000:] = mnist.target[reorder_test + 60000]
 
 
-mnist = fetch_openml('mnist_784', data_home=ml_ch3_sklearn_data_home, version=1, cache=True)
+mnist = fetch_openml('mnist_784', data_home= GlobalParam.get_ml_ch3_sklearn_data_home(), version=1, cache=True)
 mnist.target = mnist.target.astype(np.int8)
 sort_by_target(mnist)
 
