@@ -201,4 +201,6 @@ class GlobalParam:
     # test_reports section
     @staticmethod
     def get_unittest_reports():
-        return ConfigUtils.read_conf_file(GlobalParam.conf_path, GlobalParam.section_test_reports, 'unittest_reports')[2]
+        return ''.join(
+            (GlobalParam.project_path, ConfigUtils.read_conf_file(GlobalParam.conf_path,
+                                                                  GlobalParam.section_test_reports, 'unittest_reports')[2]))
