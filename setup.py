@@ -27,7 +27,7 @@ setup(
         'cowabunga_potato.machine_learning.extra': './machine_learning/extra',
         'cowabunga_potato.opencv': './opencv',
         'cowabunga_potato.python_common': './python_common',
-        'cowabunga_potato.python_common.file_and_system': './python_common/file_and_system',
+        'cowabunga_potato.file_and_system': './file_and_system',
         'cowabunga_potato.python_common.graphic_and_sound': './python_common/graphic_and_sound',
         'cowabunga_potato.selenium_test': './selenium_test'
     },
@@ -40,7 +40,7 @@ setup(
         'cowabunga_potato.machine_learning.extra',
         'cowabunga_potato.opencv',
         'cowabunga_potato.python_common',
-        'cowabunga_potato.python_common.file_and_system',
+        'cowabunga_potato.file_and_system',
         'cowabunga_potato.python_common.graphic_and_sound',
         'cowabunga_potato.selenium_test'
     ],
