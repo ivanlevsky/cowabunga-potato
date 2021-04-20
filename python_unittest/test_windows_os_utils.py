@@ -22,11 +22,11 @@ class TestWindowsOsUtil(unittest.TestCase):
 
     def test_kill_and_run_process_by_name(self):
         warnings.simplefilter('ignore', ResourceWarning)
-        WindowsOsUtil.run_process_by_name('notepad.exe')
-        self.assertTrue(WindowsOsUtil.check_process_running('notepad.exe'))
+        WindowsOsUtil.run_process_by_name(self.processToTestRunAndKill)
+        self.assertTrue(WindowsOsUtil.check_process_running(self.processToTestRunAndKill))
 
-        WindowsOsUtil.kill_process_by_name('notepad.exe')
-        self.assertFalse(WindowsOsUtil.check_process_running('notepad.exe'))
+        WindowsOsUtil.kill_process_by_name(self.processToTestRunAndKill)
+        self.assertFalse(WindowsOsUtil.check_process_running(self.processToTestRunAndKill))
 
     def test_check_process_running(self):
         with self.subTest():
