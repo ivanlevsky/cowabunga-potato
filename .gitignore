@@ -6,7 +6,8 @@
 /test file/weblist.properties
 /test file/*.py
 /test file/*.txt
-/test file/webdriver
+/test file/webdriver/
 /test file/datasets/
 /test file/appium/
+/test file/test reports/
 /opencv/openh264-1.8.0-win64.dll
