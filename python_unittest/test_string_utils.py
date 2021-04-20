@@ -14,7 +14,7 @@ class TestStringUtils(unittest.TestCase):
         with self.subTest():
             self.assertSequenceEqual(self.textGroup1,StringUtils.split_string_by_regex('123', self.textToSplit1))
         with self.subTest():
-            self.assertSequenceEqual(self.textGroup2,StringUtils.split_string_by_regex('\{|\}', self.textToSplit2))
+            self.assertSequenceEqual(self.textGroup2,StringUtils.split_string_by_regex('\\{|\\}', self.textToSplit2))
 
 
 if __name__ == '__main__':
