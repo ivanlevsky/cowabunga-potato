@@ -15,9 +15,10 @@ class TestWindowsOsUtil(unittest.TestCase):
         cls.processToTestRunAndKill = 'notepad.exe'
         cls.command = 'echo 123'
 
-    def tearDown(self):
-        if WindowsOsUtil.check_process_running(self.processToTestRunAndKill):
-            WindowsOsUtil.kill_process_by_name(self.processToTestRunAndKill)
+    @classmethod
+    def tearDownClass(cls):
+        if WindowsOsUtil.check_process_running(cls.processToTestRunAndKill):
+            WindowsOsUtil.kill_process_by_name(cls.processToTestRunAndKill)
 
     def test_kill_and_run_process_by_name(self):
         warnings.simplefilter('ignore', ResourceWarning)
