@@ -43,6 +43,7 @@ class TestGlobalParam(unittest.TestCase):
         cls.excel_datasets = cls.project_path + '\\test file\\datasets\\test_excel.xlsx'
         cls.csv_datasets = cls.project_path + '\\test file\\datasets\\test_csv.csv'
         cls.unittest_reports = cls.project_path + '\\test file\\test reports\\unittest\\'
+        cls.pytest_reports = cls.project_path + '\\test file\\test reports\\pytest\\'
 
     def test_get_test_image_path(self):
         self.assertEqual(self.test_image_path, GlobalParam.get_test_image_path())
@@ -152,6 +153,8 @@ class TestGlobalParam(unittest.TestCase):
     def test_get_unittest_reports(self):
         self.assertEqual(self.unittest_reports, GlobalParam.get_unittest_reports())
 
+    def test_get_pytest_reports(self):
+        self.assertEqual(self.pytest_reports, GlobalParam.get_pytest_reports())
 
 if __name__ == '__main__':
     unittest.main()

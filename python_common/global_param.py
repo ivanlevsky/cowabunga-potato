@@ -204,3 +204,9 @@ class GlobalParam:
         return ''.join(
             (GlobalParam.project_path, ConfigUtils.read_conf_file(GlobalParam.conf_path,
                                                                   GlobalParam.section_test_reports, 'unittest_reports')[2]))
+
+    @staticmethod
+    def get_pytest_reports():
+        return ''.join(
+            (GlobalParam.project_path, ConfigUtils.read_conf_file(GlobalParam.conf_path,
+                                                                  GlobalParam.section_test_reports, 'pytest_reports')[2]))
