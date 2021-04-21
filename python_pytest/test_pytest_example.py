@@ -68,8 +68,6 @@ class TestPytestExample:
 
 
 if __name__ == '__main__':
-    # report_path = '--html=../test file/test reports/pytest/report.html'
-    # print(report_path)
     '''
         # this will run all pytest class
         pytest.main(['-s'])
@@ -87,5 +85,6 @@ if __name__ == '__main__':
     pytest.main([
                  '--rootdir=../python_pytest/',
                  '--ignore=../python_pytest/test_pytest_example.py',
+                 '--html=../test file/test reports/pytest/report.html',
                  '-o', 'cache_dir=../test file/test reports/pytest/.pytest_cache'
                  ])
