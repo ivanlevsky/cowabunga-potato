@@ -8,7 +8,7 @@ class TestWindowsOsUtils:
     processToTestRunAndKill = ''
     command = ''
 
-    @pytest.fixture()
+    @pytest.fixture(autouse=True)
     def setup_params(self):
         self.processIsRunning = 'python.exe'
         self.processNotRunning = 'retroarch.exe'
@@ -18,21 +18,21 @@ class TestWindowsOsUtils:
         if WindowsOsUtil.check_process_running(self.processToTestRunAndKill):
             WindowsOsUtil.kill_process_by_name(self.processToTestRunAndKill)
 
-    def test_kill_and_run_process_by_name(self, setup_params):
+    def test_kill_and_run_process_by_name(self):
         WindowsOsUtil.run_process_by_name(self.processToTestRunAndKill)
         assert WindowsOsUtil.check_process_running(self.processToTestRunAndKill)
 
         WindowsOsUtil.kill_process_by_name(self.processToTestRunAndKill)
         assert not WindowsOsUtil.check_process_running(self.processToTestRunAndKill)
 
-    def test_check_process_running(self, setup_params):
+    def test_check_process_running(self):
         assert WindowsOsUtil.check_process_running(self.processIsRunning)
         assert not WindowsOsUtil.check_process_running(self.processNotRunning)
 
-    def test_get_command_output(self, setup_params):
+    def test_get_command_output(self):
         assert '123' == WindowsOsUtil.get_command_output(self.command)
 
-    def test_get_shell_output(self, setup_params):
+    def test_get_shell_output(self):
         assert '123' == WindowsOsUtil.get_shell_output(['powershell'], self.command)
 
 
