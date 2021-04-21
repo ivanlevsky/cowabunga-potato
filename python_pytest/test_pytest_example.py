@@ -1,6 +1,5 @@
 import pytest
 
-
 def sum_num(num_one, num_two):
     return num_one + num_two
 
@@ -76,5 +75,17 @@ if __name__ == '__main__':
         pytest.main(['-s'])
         # use file name to run one class
         pytest.main(['-s', 'test_xxx.py'])
+        # this will only run test_pytest_example.py on rootdir
+        pytest.main(['-s', 'test_pytest_example.py'])
+        # set cache-dir with '-o' and 'cache_dir=path'
+        pytest.main(['-o', 'cache_dir=D:/abc.../123../.pytest_cache'])
+        # set rootdir or pytest will run all pytest files in this project
+        pytest.main(['--rootdir=../../python_pytest/'])
+        # use ignore to skip test file
+        pytest.main(['--ignore=../python_pytest/test_windows_os_utils.py'])
     '''
-    pytest.main(['-s', 'test_pytest_example.py'])
+    pytest.main([
+                 '--rootdir=../python_pytest/',
+                 '--ignore=../python_pytest/test_pytest_example.py',
+                 '-o', 'cache_dir=../test file/test reports/pytest/.pytest_cache'
+                 ])
