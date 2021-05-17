@@ -17,6 +17,7 @@ class GlobalParam:
     section_selenium = 'selenium'
     section_databases = 'databases'
     section_test_reports = 'testReports'
+    section_gif_utils = 'image_utils'
 
     # test_path section
     @staticmethod
@@ -210,3 +211,16 @@ class GlobalParam:
         return ''.join(
             (GlobalParam.project_path, ConfigUtils.read_conf_file(GlobalParam.conf_path,
                                                                   GlobalParam.section_test_reports, 'pytest_reports')[2]))
+
+    # gif_utils section
+    @staticmethod
+    def get_gif_import():
+        return ''.join(
+            (GlobalParam.project_path, ConfigUtils.read_conf_file(GlobalParam.conf_path,
+                                                                  GlobalParam.section_gif_utils, 'gif_import')[2]))
+
+    @staticmethod
+    def get_gif_export():
+        return ''.join(
+            (GlobalParam.project_path, ConfigUtils.read_conf_file(GlobalParam.conf_path,
+                                                                  GlobalParam.section_gif_utils, 'gif_export')[2]))
