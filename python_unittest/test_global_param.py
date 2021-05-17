@@ -44,8 +44,8 @@ class TestGlobalParam(unittest.TestCase):
         cls.csv_datasets = cls.project_path + '\\test file\\datasets\\test_csv.csv'
         cls.unittest_reports = cls.project_path + '\\test file\\test reports\\unittest\\'
         cls.pytest_reports = cls.project_path + '\\test file\\test reports\\pytest\\'
-        cls.gif_import = cls.project_path + '\\test file\\images\\gif import'
-        cls.gif_export = cls.project_path + '\\test file\\images\\gif export'
+        cls.gif_import = cls.project_path + '\\test file\\images\\gif import\\'
+        cls.gif_export = cls.project_path + '\\test file\\images\\gif export\\'
 
     def test_get_test_image_path(self):
         self.assertEqual(self.test_image_path, GlobalParam.get_test_image_path())
