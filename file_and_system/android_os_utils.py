@@ -8,6 +8,10 @@ def android_device_list():
     return WindowsOsUtil.get_command_output('adb devices').split('\n')[1].replace('device', '').strip()
 
 
+def android_product_info():
+    return WindowsOsUtil.get_command_output('adb shell getprop ro.product.model')
+
+
 def android_version():
     return WindowsOsUtil.get_command_output('adb shell getprop ro.build.version.release')
 
@@ -78,7 +82,8 @@ def android_all_package_list():
             launch = android_search_app_activity(pkg)
         package_list.append(','.join((pkg, name, launch)))
 
-    write_string_to_file(GlobalParam.get_android_apk_list(), package_list, 'utf8')
+    write_string_to_file(GlobalParam.get_android_apk_list().replace('android_apk_list', android_product_info()
+                                                                    + '_android_apk_list'), package_list, 'utf8')
     return package_list
 
 
@@ -100,7 +105,9 @@ def android_search_app_activity(app_package):
 
 
 def android_search_package_by_name(app_name):
-    read_list = list(read_file(GlobalParam.get_android_apk_list(), 'utf8').strip('][').replace('\'', '').split(', '))
+    read_list = list(read_file(GlobalParam.get_android_apk_list().replace('android_apk_list',
+                                                                          android_product_info()+ '_android_apk_list'),
+                               'utf8').strip('][').replace('\'', '').split(', '))
     for rl in read_list:
         if rl.__contains__(app_name):
             return rl.split(',')[0], rl.split(',')[2]
@@ -120,7 +127,6 @@ def android_find_app_user_id(app_package):
     cmd = ''.join(('dumpsys package ', app_package, ' | grep userId'))
     msg = WindowsOsUtil.get_shell_output(['adb', 'shell'], cmd)
     return msg
-
 
 def android_backup_app_apk(app_package, backup_path):
     cmd = ''.join(('pm path ', app_package))
