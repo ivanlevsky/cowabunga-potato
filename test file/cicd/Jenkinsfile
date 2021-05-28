@@ -1,0 +1,33 @@
+pipeline {
+    agent any
+    options {
+        // Keep the 10 most recent builds
+        buildDiscarder(logRotator(numToKeepStr:'10'))
+    }
+    tools {
+        // Install the Maven version configured as "M3" and add it to the path.
+        maven "M3"
+    }
+    stages {
+        stage('Git Checkout') {
+            steps {
+                checkout([
+                        $class: 'GitSCM',
+                        branches: [[name: '*/master']],
+                        extensions: [
+                        ],
+                        userRemoteConfigs: [
+                                [
+                                        //https git clone
+                                        //url: 'https://github.com/ivanlevsky/stand-alone-complex-tomato.git'
+
+                                        //ssh git clone
+                                        credentialsId: 'jenkins-ssh-key',
+                                        url: 'git@github.com:ivanlevsky/cowabunga-potato.git'
+                                ]
+                        ]
+                ])
+            }
+        }
+    }
+}
