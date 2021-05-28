@@ -1,7 +1,17 @@
-import os, subprocess
+import os, subprocess, platform
 
 
 class WindowsOsUtil:
+    @staticmethod
+    def is_windows_os():
+        if platform.system().lower().__contains__('windows'):
+            return True
+
+    @staticmethod
+    def is_linux_os():
+        if platform.system().lower().__contains__('linux'):
+            return True
+
     @staticmethod
     def kill_process_by_name(name):
         os.system('taskkill /f /im  ' + name)
