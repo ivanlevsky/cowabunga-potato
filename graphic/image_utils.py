@@ -11,6 +11,7 @@ from PIL import Image, GifImagePlugin
 #         os.mkdir(image_path)
 #     with open(image_path, 'wb') as f:
 #         f.write(base64.b64decode(base64Value))
+
 class ImageUtils():
     # https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html
     @staticmethod
@@ -37,7 +38,24 @@ class ImageUtils():
                 image_object.seek(frame)
                 image_object.save(fp=GlobalParam.get_gif_import() + str(frame) +'.png', format='PNG')
 
+    @staticmethod
+    def convert_white_pixels_to_transparent(image_path):
+        image = Image.open(image_path)
+        image = image.convert('RGBA')
+        print(image.mode)
+        # Transparency
+        new_image = []
+        for item in image.getdata():
+            if item[:3] == (255, 255, 255):
+                new_image.append((255, 255, 255, 0))
+            else:
+                new_image.append(item)
 
+        image.putdata(new_image)
+        image.save(image_path)
+        print(image.mode, image.size)
+
+ImageUtils.convert_white_pixels_to_transparent("../test file/images/2.png");
 # fp_out = GlobalParam.get_gif_export() + 'out.gif'
 # split_gif_to_images(fp_out)
 
