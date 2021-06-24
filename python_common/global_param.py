@@ -212,6 +212,12 @@ class GlobalParam:
             (GlobalParam.project_path, ConfigUtils.read_conf_file(GlobalParam.conf_path,
                                                                   GlobalParam.section_test_reports, 'pytest_reports')[2]))
 
+    @staticmethod
+    def get_word_report():
+        return ''.join(
+            (GlobalParam.project_path, ConfigUtils.read_conf_file(GlobalParam.conf_path,
+                                                                  GlobalParam.section_test_reports, 'word_report')[2]))
+
     # gif_utils section
     @staticmethod
     def get_gif_import():

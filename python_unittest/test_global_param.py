@@ -44,6 +44,7 @@ class TestGlobalParam(unittest.TestCase):
         cls.csv_datasets = cls.project_path + '\\test file\\datasets\\test_csv.csv'
         cls.unittest_reports = cls.project_path + '\\test file\\test reports\\unittest\\'
         cls.pytest_reports = cls.project_path + '\\test file\\test reports\\pytest\\'
+        cls.word_report = cls.project_path + '\\test file\\test reports\\word\\'
         cls.gif_import = cls.project_path + '\\test file\\images\\gif import\\'
         cls.gif_export = cls.project_path + '\\test file\\images\\gif export\\'
 
@@ -157,6 +158,9 @@ class TestGlobalParam(unittest.TestCase):
 
     def test_get_pytest_reports(self):
         self.assertEqual(self.pytest_reports, GlobalParam.get_pytest_reports())
+
+    def test_get_word_report(self):
+        self.assertEqual(self.word_report, GlobalParam.get_word_report())
 
     def test_get_gif_import(self):
         self.assertEqual(self.gif_import, GlobalParam.get_gif_import())
