@@ -1,4 +1,5 @@
 from docx import Document
+from docx.enum.table import WD_TABLE_ALIGNMENT
 from docx.shared import Pt, RGBColor
 from docx.enum.style import WD_STYLE_TYPE
 from docx.enum.text import WD_BREAK
@@ -8,6 +9,14 @@ from docx.shared import Inches
 import re
 
 document = Document()
+
+def add_document_heading(text, level):
+    paragragh = document.add_heading('', level=level)
+    runner = paragragh.add_run(text)
+    runner.font.name = '宋体'
+    runner.font.color.rgb = RGBColor(0,0,0)
+    runner.bold = True
+    runner._element.rPr.rFonts.set(qn('w:eastAsia'), '宋体')
 
 
 def add_document_text(text, **option):
@@ -39,7 +48,6 @@ def add_document_text_simple(text, **option):
         default_font_size = option.get('font_size')
     runner = paragraph.add_run(text)
     runner.font.size = Pt(default_font_size)
-    runner.add_break(WD_BREAK.LINE)
 
 
 def add_doc_table(table_datas, *styles):
@@ -51,6 +59,7 @@ def add_doc_table(table_datas, *styles):
     if row_num > 0:
         col_num = table_datas[0].__len__()
     table = document.add_table(rows=0, cols=col_num, style=default_table_style)
+    table.alignment = WD_TABLE_ALIGNMENT.CENTER
     for rt in table_datas:
         row_cells = table.add_row().cells
         for i in range(col_num):
@@ -154,8 +163,8 @@ def write_docx_table_style_example():
 
 
 def write_docx_template_example():
-    document.styles['Normal'].font.name = u'宋体'
-    document.styles['Normal']._element.rPr.rFonts.set(qn('w:eastAsia'), u'宋体')
+    document.styles['Normal'].font.name = '宋体'
+    document.styles['Normal']._element.rPr.rFonts.set(qn('w:eastAsia'), '宋体')
     document.styles['Normal'].font.color.rgb = RGBColor(0,0,0)
     # document.styles['Normal'].font.size = Pt(10.5)
     records = (
@@ -165,13 +174,14 @@ def write_docx_template_example():
         (4, 'Cloud', '33', '338383.12'),
         (5, 'Zack', '12', '-383841')
     )
-
-    add_document_text_simple("      段落1：测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱"
+    add_document_heading('标题', 0)
+    add_document_heading('标题', 1)
+    add_document_text_simple('      段落1：测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱'
                              ,font_size=12)
-    add_document_text_simple("      段落2：测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱"
+    add_document_text_simple('      段落2：测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱'
                              ,font_size=12)
     add_doc_table(records, 'Light Grid Accent 5')
-    add_document_text_simple("      段落3：测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱"
+    add_document_text_simple('      段落3：测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱'
                              ,font_size=12)
 
 
