@@ -4,6 +4,7 @@ from docx.enum.style import WD_STYLE_TYPE
 from docx.enum.text import WD_BREAK
 from docx.shared import Inches
 from python_common.global_param import GlobalParam
+
 import re
 
 document = Document()
@@ -21,6 +22,8 @@ def add_document_text(text, **option):
         default_font_bold = option.get('font_bold')
     if option.get('font_italic') is not None:
         default_font_italic = option.get('font_italic')
+    if option.get('font_name') is not None:
+        default_font_italic = option.get('font_name')
     runner = paragraph.add_run(text)
     runner.bold = default_font_bold
     runner.font.name = default_font_name
@@ -75,6 +78,7 @@ def docx_table_style_example():
 def save_docx_file(file_name):
     document.save(GlobalParam.get_word_report() + file_name)
 
+
 # convert text and keywords to list in order
 def reformat_text_and_keyword(text):
     re_text = []
@@ -89,35 +93,53 @@ def reformat_text_and_keyword(text):
                 else:
                     re_text.append(st)
         else:
+            # spl = list(filter(None, re.split('([ 	])', st)))
+            # for sp in spl:
             re_text.append(st)
     return re_text
 
 
-# read doc text data and trigger keyword functions
-def read_docx_file(file_name):
+# read doc template replace text data and trigger keyword functions
+def read_docx_template_file(file_name):
     read_document = Document(GlobalParam.get_word_report() + file_name)
     for doc_para in read_document.paragraphs:
         paragraph = document.add_paragraph('', style=doc_para.style)
-        # print('----------'+doc_para.text)
-        # print(reformat_text_and_keyword(doc_para.text))
-        for run in doc_para.runs:
-            # print(run.font.color.rgb)
-            print(run.text)
-            # keyword_function(doc_para.text)
-            # paragraph.add_run(run.text, style=run.style)
-            # paragraph.add_run(run.text.replace(run.text, '123'), style=run.style)
-            # newrun.font.style = run.font.style
-            # newrun.style = run.style
-        # print(doc_para.text)
-
-        # add_document_text(doc_para.text, font_size = 10, font_bold= False, font_italic = True)
-        # import_db_table_to_docx_table(doc_para.text)
-
+        for rdt in reformat_text_and_keyword(doc_para.text):
+            if rdt.__contains__('_s_p_l_i_t_'):
+                if rdt.split('_s_p_l_i_t')[0] == 'time':
+                    rdt = '2000-12-01'
+                    paragraph.add_run(rdt)
+                elif rdt.split('_s_p_l_i_t')[0] == 'table':
+                    rdt = 'table_data1'
+                    records = (
+                        (3, 'Jack', None),
+                        (7, 'Tom', '12'),
+                        (4, 'Cloud', '33'),
+                        (5, 'Zack', '1')
+                    )
+                    records = (('N0.', 'NAME', 'AGE'),) + records
+                    add_doc_table(records, 'Light Grid Accent 5')
+                else:
+                    rdt = rdt
+                    paragraph.add_run(rdt)
+            else:
+                for run in doc_para.runs:
+                    runner = paragraph.add_run(run.text)
+                    runner.font.name = run.font.name
+                    runner.bold = run.bold
+                    runner.italic = run.italic
+                    runner.font.size = run.font.size
+                    runner.underline = run.underline
+                    runner.font.color.rgb = run.font.color.rgb
+                # rdt = rdt
+                # pr = paragraph.add_run(rdt)
+        # paragraph.add_run(rdt)
+        # paragraph.add_run().add_break(WD_BREAK.LINE)
+        print('----end of para----')
 
 # docx_table_style_example()
 # save_docx_file('demo.docx')
-read_docx_file('demo2.docx')
-# save_docx_file('demo2.docx')
+
 
 
 
