@@ -1,9 +1,9 @@
 from docx import Document
-from docx.shared import Pt
+from docx.shared import Pt, RGBColor
 from docx.enum.style import WD_STYLE_TYPE
 from docx.enum.text import WD_BREAK
+from docx.oxml.shared import qn
 from docx.shared import Inches
-from python_common.global_param import GlobalParam
 
 import re
 
@@ -23,7 +23,7 @@ def add_document_text(text, **option):
     if option.get('font_italic') is not None:
         default_font_italic = option.get('font_italic')
     if option.get('font_name') is not None:
-        default_font_italic = option.get('font_name')
+        default_font_name = option.get('font_name')
     runner = paragraph.add_run(text)
     runner.bold = default_font_bold
     runner.font.name = default_font_name
@@ -31,6 +31,15 @@ def add_document_text(text, **option):
     runner.font.size = Pt(default_font_size)
     runner.add_break(WD_BREAK.LINE)
     return runner
+
+def add_document_text_simple(text, **option):
+    paragraph = document.add_paragraph('')
+    default_font_size = 15
+    if option.get('font_size') is not None:
+        default_font_size = option.get('font_size')
+    runner = paragraph.add_run(text)
+    runner.font.size = Pt(default_font_size)
+    runner.add_break(WD_BREAK.LINE)
 
 
 def add_doc_table(table_datas, *styles):
@@ -51,6 +60,11 @@ def add_doc_table(table_datas, *styles):
                 row_cells[i].text = str(rt[i])
 
 
+def add_doc_picture(picture):
+    # document.add_picture(picture, width=Inches(1.25))
+    document.add_picture(picture)
+
+
 def list_style():
     styles = [
         # s for s in document.styles if s.type == WD_STYLE_TYPE.CHARACTER
@@ -59,24 +73,6 @@ def list_style():
         s for s in document.styles if s.type == WD_STYLE_TYPE.TABLE
     ]
     return styles
-
-
-# generate all built-in table styles example
-def docx_table_style_example():
-    records = (
-        (3, 'Jack', None),
-        (7, 'Tom', '12'),
-        (4, 'Cloud', '33'),
-        (5, 'Zack', '1')
-    )
-    records = (('N0.', 'NAME', 'AGE'),) + records
-    for style in list_style():
-        add_document_text(style.name, font_size = 10, font_bold= False, font_italic = True)
-        add_doc_table(records, style.name)
-
-
-def save_docx_file(file_name):
-    document.save(GlobalParam.get_word_report() + file_name)
 
 
 # convert text and keywords to list in order
@@ -101,7 +97,7 @@ def reformat_text_and_keyword(text):
 
 # read doc template replace text data and trigger keyword functions
 def read_docx_template_file(file_name):
-    read_document = Document(GlobalParam.get_word_report() + file_name)
+    read_document = Document(file_name)
     for doc_para in read_document.paragraphs:
         paragraph = document.add_paragraph('', style=doc_para.style)
         for rdt in reformat_text_and_keyword(doc_para.text):
@@ -137,10 +133,48 @@ def read_docx_template_file(file_name):
         # paragraph.add_run().add_break(WD_BREAK.LINE)
         print('----end of para----')
 
-# docx_table_style_example()
-# save_docx_file('demo.docx')
+
+def save_docx_file(file_name):
+    document.save(file_name)
 
 
+# generate all built-in table styles example
+def write_docx_table_style_example():
+    records = (
+        (3, 'Jack', None),
+        (7, 'Tom', '12'),
+        (4, 'Cloud', '33'),
+        (5, 'Zack', '1')
+    )
+    records = (('N0.', 'NAME', 'AGE'),) + records
+    for style in list_style():
+        add_document_text(style.name, font_size = 10, font_bold= False, font_italic = True)
+        add_doc_table(records, style.name)
+
+
+
+def write_docx_template_example():
+    document.styles['Normal'].font.name = u'宋体'
+    document.styles['Normal']._element.rPr.rFonts.set(qn('w:eastAsia'), u'宋体')
+    document.styles['Normal'].font.color.rgb = RGBColor(0,0,0)
+    # document.styles['Normal'].font.size = Pt(10.5)
+    records = (
+        (3, 'Jack', None),
+        (7, 'Tom', '12'),
+        (4, 'Cloud', '33'),
+        (5, 'Zack', '1')
+    )
+    records = (('N0.', 'NAME', 'AGE'),) + records
+
+    add_document_text_simple("      段落1：世界军事打击覅搜得及附件为吉佛外界哦分i金额为i就覅我就覅藕节我就覅金额为i金佛危机附件为哦就感觉我阿胶分为哦减肥我就覅为"
+                             ,font_size=12)
+    add_document_text_simple("      段落2：世界军事打击覅搜得及附件为吉佛外界哦分i金额为i就覅我就覅藕节我就覅金额为i金佛危机附件为哦就感觉我阿胶分为哦减肥我就覅为"
+                             ,font_size=12)
+    add_doc_table(records, 'Light Grid Accent 5')
+    add_document_text_simple("      段落3：世界军事打击覅搜得及附件为吉佛外界哦分i金额为i就覅我就覅藕节我就覅金额为i金佛危机附件为哦就感觉我阿胶分为哦减肥我就覅为"
+                             ,font_size=12)
+    add_document_text_simple("      段落4：世界军事打击覅搜得及附件为吉佛外界哦分i金额为i就覅我就覅藕节我就覅金额为i金佛危机附件为哦就感觉我阿胶分为哦减肥我就覅为"
+                             ,font_size=12)
 
 
 
