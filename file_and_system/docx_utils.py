@@ -159,21 +159,19 @@ def write_docx_template_example():
     document.styles['Normal'].font.color.rgb = RGBColor(0,0,0)
     # document.styles['Normal'].font.size = Pt(10.5)
     records = (
-        (3, 'Jack', None),
-        (7, 'Tom', '12'),
-        (4, 'Cloud', '33'),
-        (5, 'Zack', '1')
+        ('序号', '名字', '年龄', '金额(元)'),
+        (3, 'Jack', None, None),
+        (7, 'Tom', '12', '1003.4'),
+        (4, 'Cloud', '33', '338383.12'),
+        (5, 'Zack', '12', '-383841')
     )
-    records = (('N0.', 'NAME', 'AGE'),) + records
 
-    add_document_text_simple("      段落1：世界军事打击覅搜得及附件为吉佛外界哦分i金额为i就覅我就覅藕节我就覅金额为i金佛危机附件为哦就感觉我阿胶分为哦减肥我就覅为"
+    add_document_text_simple("      段落1：测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱"
                              ,font_size=12)
-    add_document_text_simple("      段落2：世界军事打击覅搜得及附件为吉佛外界哦分i金额为i就覅我就覅藕节我就覅金额为i金佛危机附件为哦就感觉我阿胶分为哦减肥我就覅为"
+    add_document_text_simple("      段落2：测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱"
                              ,font_size=12)
     add_doc_table(records, 'Light Grid Accent 5')
-    add_document_text_simple("      段落3：世界军事打击覅搜得及附件为吉佛外界哦分i金额为i就覅我就覅藕节我就覅金额为i金佛危机附件为哦就感觉我阿胶分为哦减肥我就覅为"
-                             ,font_size=12)
-    add_document_text_simple("      段落4：世界军事打击覅搜得及附件为吉佛外界哦分i金额为i就覅我就覅藕节我就覅金额为i金佛危机附件为哦就感觉我阿胶分为哦减肥我就覅为"
+    add_document_text_simple("      段落3：测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱"
                              ,font_size=12)
 
 
