@@ -2,10 +2,9 @@ from docx import Document
 from docx.enum.table import WD_TABLE_ALIGNMENT
 from docx.shared import Pt, RGBColor
 from docx.enum.style import WD_STYLE_TYPE
-from docx.enum.text import WD_BREAK
+from docx.enum.text import WD_BREAK, WD_PARAGRAPH_ALIGNMENT
 from docx.oxml.shared import qn
 from docx.shared import Inches
-
 import re
 
 document = Document()
@@ -14,7 +13,7 @@ def add_document_heading(text, level):
     paragragh = document.add_heading('', level=level)
     runner = paragragh.add_run(text)
     runner.font.name = '宋体'
-    runner.font.color.rgb = RGBColor(0,0,0)
+    runner.font.color.rgb = RGBColor(0, 0, 0)
     runner.bold = True
     runner._element.rPr.rFonts.set(qn('w:eastAsia'), '宋体')
 
@@ -70,8 +69,10 @@ def add_doc_table(table_datas, *styles):
 
 
 def add_doc_picture(picture):
-    # document.add_picture(picture, width=Inches(1.25))
-    document.add_picture(picture)
+    document.add_picture(picture, width=Inches(5.25))
+    # document.add_picture(picture)
+    last_paragraph = document.paragraphs[-1]
+    last_paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
 
 
 def list_style():
@@ -165,7 +166,7 @@ def write_docx_table_style_example():
 def write_docx_template_example():
     document.styles['Normal'].font.name = '宋体'
     document.styles['Normal']._element.rPr.rFonts.set(qn('w:eastAsia'), '宋体')
-    document.styles['Normal'].font.color.rgb = RGBColor(0,0,0)
+    document.styles['Normal'].font.color.rgb = RGBColor(0, 0, 0)
     # document.styles['Normal'].font.size = Pt(10.5)
     records = (
         ('序号', '名字', '年龄', '金额(元)'),
