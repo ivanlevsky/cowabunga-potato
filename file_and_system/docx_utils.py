@@ -42,6 +42,7 @@ def add_document_text(text, **option):
 
 def add_document_text_simple(text, **option):
     paragraph = document.add_paragraph('')
+    paragraph.paragraph_format.first_line_indent = Inches(.4)
     default_font_size = 15
     if option.get('font_size') is not None:
         default_font_size = option.get('font_size')
@@ -177,12 +178,12 @@ def write_docx_template_example():
     )
     add_document_heading('标题', 0)
     add_document_heading('标题', 1)
-    add_document_text_simple('      段落1：测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱'
+    add_document_text_simple('段落1：测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱'
                              ,font_size=12)
-    add_document_text_simple('      段落2：测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱'
+    add_document_text_simple('段落2：测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱'
                              ,font_size=12)
     add_doc_table(records, 'Light Grid Accent 5')
-    add_document_text_simple('      段落3：测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱'
+    add_document_text_simple('段落3：测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱测试文字段乱'
                              ,font_size=12)
 
 
