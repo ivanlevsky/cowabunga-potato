@@ -30,8 +30,8 @@ def set_line_color(matplot_object, line_object, color):
     matplot_object.Line2D.set_color(line_object, color)
 
 
-def draw_two_dimensional(title, x_input, y_input, x_labal, y_label):
-    line_list = plt.plot(x_input, y_input)
+def draw_lines_in_two_dimensional(title, x_input, y_input, x_labal, y_label):
+    line_list = plt.plot(x_input, y_input, label='test line')
     plt.title(title)
     plt.xlabel(x_labal)
     plt.ylabel(y_label)
@@ -76,18 +76,14 @@ def save_animation_as_gif_image(write_animation, animation_name):
     write_animation.save(''.join((animation_name,'.gif')), writer=animation.PillowWriter(fps=40))
 
 
-def test_function():
-    line_list = plt.plot([-3, -2, 5, 0], [1, 6, 4, 3])
-    return plt, line_list
-
-
 # -----------------test line , line style-----------------------------------
 # x=[0, 1, 2, 3, 4, 5]
 # y=[0, 1, 2, 3, 4, 5]
-# mplt, lines = draw_two_dimensional('Square function', x, y, 'x', 'y')
+# mplt, lines = draw_lines_in_two_dimensional('Square function', x, y, 'x', 'y')
 # set_line_style(mplt, lines[0], '-')
 # set_line_marker(mplt, lines[0], '*')
 # set_line_color(mplt, lines[0], 'c')
+# plt.legend()
 # show_matplot_image(mplt)
 # ------------------2d animation----------------------------------
 # x = np.linspace(-2, 2, 50)
