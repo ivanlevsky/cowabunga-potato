@@ -33,3 +33,7 @@ def write_csv(csv_file, data, *append_write):
         pd.DataFrame(data).to_csv(writer, encoding = 'utf-8', index=False, header=False, line_terminator='\n')
 
 
+def read_csv(csv_file):
+    return pd.read_csv(csv_file, encoding='gbk', lineterminator='\n')
+
+
