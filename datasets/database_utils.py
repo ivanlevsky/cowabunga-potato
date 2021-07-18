@@ -73,3 +73,12 @@ def execute_sql(connection, sql, get_result, *execute_many_data):
     if sql.lower().__contains__('select'):
         return row_values
 
+
+def check_table_exists(connection, table_name):
+    cur = connection.cursor()
+    pgsql_query = 'select * from information_schema.tables where table_schema = \'public\' and table_name = \'' \
+                  + table_name +'\''
+    cur.execute(pgsql_query)
+    result = cur.fetchone()
+    return result
+
