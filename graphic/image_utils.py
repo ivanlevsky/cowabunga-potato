@@ -55,7 +55,7 @@ class ImageUtils():
         image.save(image_path)
         print(image.mode, image.size)
 
-ImageUtils.convert_white_pixels_to_transparent("../test file/images/2.png");
+# ImageUtils.convert_white_pixels_to_transparent("../test file/images/2.png");
 # fp_out = GlobalParam.get_gif_export() + 'out.gif'
 # split_gif_to_images(fp_out)
 
