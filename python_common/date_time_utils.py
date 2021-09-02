@@ -38,21 +38,16 @@ class DateUtils:
                     passDays += 1
     
             calc_date += week_ends_count
-        return date + timedelta(days=calc_date)
+        return str(date + timedelta(days=calc_date))
     
     @staticmethod
     def get_last_day_of_month(date_str) :
         date = datetime.date.fromisoformat(date_str)
-        return (date.replace(day=1) + timedelta(days=32)).replace(day=1) - timedelta(days=1)
+        return str((date.replace(day=1) + timedelta(days=32)).replace(day=1) - timedelta(days=1))
     
     @staticmethod
     def get_first_day_of_month(date_str) :
         date = datetime.date.fromisoformat(date_str)
-        return date.replace(day=1)
+        return str(date.replace(day=1))
 
-print(DateUtils.get_last_day_of_month("2021-08-01"))
-print(DateUtils.get_first_day_of_month("2020-02-25"))
-print(DateUtils.calculate_date("2021-08-25", 10, False))
-print(DateUtils.calculate_date("2021-08-25", 10, True))
-print(DateUtils.calculate_date("2021-08-25", -10, False))
-print(DateUtils.calculate_date("2021-08-25", -10, True))
+
