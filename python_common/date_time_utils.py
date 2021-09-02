@@ -8,12 +8,7 @@ class DateUtils:
     
     @staticmethod
     def is_day_weekends(date_str):
-        date = datetime.date.fromisoformat(date_str)
-        weekday_num = datetime.datetime.isoweekday(date)
-        if weekday_num < 6:
-            return False
-        else:
-            return True
+        return datetime.datetime.isoweekday(datetime.date.fromisoformat(date_str)) > 6
         
     @staticmethod
     def calculate_date(date_str, calc_date, skip_weekends):
