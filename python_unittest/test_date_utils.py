@@ -6,7 +6,7 @@ from python_common.date_time_utils import DateUtils
 class TestStringUtils(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.old_date = '2021-08-25*'
+        cls.old_date = '2021-08-25'
         cls.calc_date1 = 10
         cls.calc_date2 = -10
         cls.first_day_of_month = '2020-02-25'
@@ -25,10 +25,10 @@ class TestStringUtils(unittest.TestCase):
             self.assertEqual('2020-02-01', DateUtils.get_first_day_of_month(self.first_day_of_month))
         with self.subTest():
             self.assertEqual('2021-08-31', DateUtils.get_last_day_of_month(self.last_day_of_month))
-	with self.subTest():
+        with self.subTest():
             self.assertEqual(True, DateUtils.is_day_weekends('2021-08-29'))
         with self.subTest():
             self.assertEqual(False, DateUtils.is_day_weekends('2021-08-30'))
-			
+
 if __name__ == '__main__':
     unittest.main()
