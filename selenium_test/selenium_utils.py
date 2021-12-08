@@ -134,3 +134,6 @@ def find_element_by_id(driver, e_id):
 
 def find_element_by_class_name(driver, e_class):
     return driver.find_element_by_class_name(e_class)
+	
+def find_element_by_css_selector(driver, css_selector):
+    return driver.find_element_by_css_selector(css_selector)
