@@ -143,3 +143,6 @@ def get_parent_element(driver, child_element):
 
 def get_next_element(driver, element):
 	return driver.execute_script('return arguments[0].nextSibling', element)
+	
+def get_single_child_element(driver, parent_element):
+	return dirver.execute_script('return arguments[0].childNodes[0]', parent_element)
