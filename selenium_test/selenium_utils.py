@@ -146,3 +146,12 @@ def get_next_element(driver, element):
 	
 def get_single_child_element(driver, parent_element):
 	return dirver.execute_script('return arguments[0].childNodes[0]', parent_element)
+	
+def select_listbox_element(web_driver, select_value):
+	listboxes = web_driver.execute_script('return document.querySelectorAll("ul")')
+	for lb in listboxes:
+		if lb.__getattribute__('text').__contains__(select_value):
+			lbc = web_driver.execute_script('return arguments[0].childNodes', lb)
+			for lbcc in lbc:
+				if lbcc.__getattribute__('text') == select_value:
+					lbcc.click()
