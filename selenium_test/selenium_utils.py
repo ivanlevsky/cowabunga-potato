@@ -141,3 +141,5 @@ def find_element_by_css_selector(driver, css_selector):
 def get_parent_element(driver, child_element):
 	return driver.execute_script('return arguments[0].parentNode;', child_element)
 
+def get_next_element(driver, element):
+	return driver.execute_script('return arguments[0].nextSibling', element)
