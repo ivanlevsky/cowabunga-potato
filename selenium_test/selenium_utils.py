@@ -137,3 +137,7 @@ def find_element_by_class_name(driver, e_class):
 	
 def find_element_by_css_selector(driver, css_selector):
     return driver.find_element_by_css_selector(css_selector)
+	
+def get_parent_element(driver, child_element):
+	return driver.execute_script('return arguments[0].parentNode;', child_element)
+
