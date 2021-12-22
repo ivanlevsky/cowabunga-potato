@@ -70,7 +70,7 @@ class SeleniumUtils():
     
     @staticmethod
     def save_screenshot(driver, image_path, image_name):
-        driver.save_screenshot(image_path + image_name)
+        driver.save_screenshot(image_path + image_name + '.png')
     
     @staticmethod
     def wait_for_page_full_loaded(driver, *max_time_out):
