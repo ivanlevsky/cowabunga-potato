@@ -153,8 +153,8 @@ class SeleniumUtils():
         return driver.execute_script('return arguments[0].childNodes[0]', parent_element)
 		
 	@staticmethod
-    def get_child_element_count(driver, element):
-        return driver.execute_script('return arguments[0].childElementCount', element)
+	def get_child_element_count(driver, element):
+		return driver.execute_script('return arguments[0].childElementCount', element)
     
     @staticmethod
     def select_listbox_element(driver, select_value):
