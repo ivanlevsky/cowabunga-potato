@@ -10,8 +10,9 @@ def read_excel(excel_file, sheet_name, *remove_header, **excel_converter):
         for c in cols:
             temp_list.append(excel_data[c][i])
         result.append(temp_list)
-    if remove_header[0] and type(remove_header[0]).__name__ == 'bool':
-        result.pop(0)
+	if len(remove_header) > 0:
+		if remove_header[0] and type(remove_header[0]).__name__ == 'bool':
+			result.pop(0)
     return result
 
 
