@@ -53,7 +53,7 @@ class ConfigUtils:
         """
         config.read_dict({section: key_and_values})
 
-	@staticmethod
+    @staticmethod
     def read_conf_all_section_and_options(conf_file):
         """
         read_conf_all_section_and_options(conf_file).get('section')
@@ -68,7 +68,7 @@ class ConfigUtils:
                 option_keys_and_values[option] = config.get(section, option)
             section_keys_and_values[section] = option_keys_and_values
         return section_keys_and_values
-		
+
     # conf = read_conf_file(conf_path)
     # add_conf_options_by_section(conf, 'path', videoInput=videoInput,videoOutput=videoOutput)
     # write_conf_file(conf_path, conf)
