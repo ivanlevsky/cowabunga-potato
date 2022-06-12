@@ -1,11 +1,11 @@
-from selenium_test.selenium_utils import *
+from selenium_test.selenium_utils import SeleniumUtils,Keys
 import time
 
 def select_languages(from_lang, to_lang):
     element = driver.find_element_by_id('tta_srcsl')
-    select_element_by_value(element,from_lang)
+    SeleniumUtils.select_element_by_value(element,from_lang)
     element = driver.find_element_by_id('tta_tgtsl')
-    select_element_by_value(element,to_lang)
+    SeleniumUtils.select_element_by_value(element,to_lang)
 
 
 def send_translate_text(text):
@@ -18,10 +18,10 @@ def send_translate_text(text):
     print(element.text)
 
 
-driver = init_driver('edge')
-open_browser_single_tab(driver,'https://cn.bing.com/translator/')
+driver = SeleniumUtils.init_driver('edge')
+SeleniumUtils.open_browser_single_tab(driver,'https://cn.bing.com/translator/')
 select_languages('en', 'zh-Hans')
 send_translate_text('what are you doing')
-close_driver(driver)
+SeleniumUtils.close_driver(driver)
 
 
