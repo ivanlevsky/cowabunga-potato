@@ -140,7 +140,7 @@ class SeleniumUtils():
     def find_element_by_css_selector(driver, css_selector):
         return driver.find_element_by_css_selector(css_selector)
 
-	@staticmethod
+    @staticmethod
     def get_elements_by_selector(driver, selector):
         return driver.execute_script(''.join(('return document.querySelectorAll("', selector, '")')))
 
