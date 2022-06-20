@@ -140,6 +140,10 @@ class SeleniumUtils():
     def find_element_by_css_selector(driver, css_selector):
         return driver.find_element_by_css_selector(css_selector)
 
+	@staticmethod
+    def get_elements_by_selector(driver, selector):
+        return driver.execute_script(''.join(('return document.querySelectorAll("', selector, '")')))
+
     @staticmethod
     def get_parent_element(driver, child_element):
         return driver.execute_script('return arguments[0].parentNode;', child_element)
