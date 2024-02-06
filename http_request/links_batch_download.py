@@ -4,9 +4,10 @@ import os,subprocess
 
 OVERWRITE_DOWNLOAS=False
 TRANSFER_7Z_TO_ZIP=True
-UPDATE_ROMS_LIST=False
-PACK_FILES=True
+UPDATE_FILES_LIST=False
+PACK_FILES=False
 z7EXE="C:\\Program Files\\7-Zip\\7z.exe"
+FILES_LIST="roms_list.txt"
 PREFIX="http://123.123.123.123/"
 PLATFORM="Axxxx - 1200/"
 ##PREFIX="https://www.abc.com/files/"
@@ -27,7 +28,7 @@ def get_all_links(url):
     for link in soup.find_all('a'):
         if link.get('href').lower().endswith('.7z') or link.get('href').lower().endswith('.zip'):
             links += ''.join((parse.unquote(link.get('href')),'\n'))
-    with open('roms_list.txt', 'w') as file:  
+    with open(FILES_LIST, 'w') as file:  
         file.write(links) 
   
 
@@ -58,15 +59,17 @@ def download(file):
         subprocess.getstatusoutput(zip_cmd)
         subprocess.getstatusoutput(del_cmd2)
 
-#update roms_list.txt
-if UPDATE_ROMS_LIST:
+#update FILES_LIST
+if UPDATE_FILES_LIST:
     get_all_links(''.join((PREFIX,parse.quote(PLATFORM))))
 
-#download roms in roms_list.txt
+#download file in FILES_LIST
 if not os.path.exists(DOWNLOAD_PATH):
     os.mkdir(DOWNLOAD_PATH)
-
-with open('roms_list.txt', 'r') as file:  
+if not os.path.exists(FILES_LIST):
+    with open(FILES_LIST, 'w') as file:  
+        pass
+with open(FILES_LIST, 'r') as file:  
     lines = [line.strip() for line in file.read().splitlines() if line]
     for ls in lines:
         download(ls)
@@ -85,8 +88,6 @@ if PACK_FILES:
     subprocess.getstatusoutput(''.join(('"',z7EXE,'" a "',os.getcwd(),'\\',PLATFORM.replace('/',''),'.7z" "',PLATFORM,'"')))
     subprocess.getstatusoutput(''.join(('del  /Q /S "',PLATFORM,'"')))
     os.rmdir(PLATFORM)
-
-
 
 
 
