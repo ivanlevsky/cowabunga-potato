@@ -53,7 +53,7 @@ def download(file):
         extract_cmd=''.join(('"',z7EXE,'" e -o"',DOWNLOAD_PATH,'\\temp" "',download_file,'"'))
         del_cmd=''.join(('del "',download_file,'"'))
         del_cmd2=''.join(('del "',DOWNLOAD_PATH,'\\temp\\*.* " /Q'))
-        zip_cmd=''.join(('"',z7EXE,'" a -tzip "',download_file.replace('.7z','.zip'),'" "',zip_file_temp,'"'))
+        zip_cmd=''.join(('"',z7EXE,'" a -tzip "',download_file.replace('.7z','.zip'),'" ',zip_file_temp))
         subprocess.getstatusoutput(extract_cmd)
         subprocess.getstatusoutput(del_cmd)
         subprocess.getstatusoutput(zip_cmd)
@@ -85,7 +85,7 @@ if os.path.exists(''.join((DOWNLOAD_PATH,'temp'))):
 #pack files
 if PACK_FILES:
     os.rename('down',PLATFORM)
-    subprocess.getstatusoutput(''.join(('"',z7EXE,'" a "',os.getcwd(),'\\',PLATFORM.replace('/',''),'.7z" ',PLATFORM)))
+    subprocess.getstatusoutput(''.join(('"',z7EXE,'" a "',os.getcwd(),'\\',PLATFORM.replace('/',''),'.7z" "',PLATFORM,'"')))
     subprocess.getstatusoutput(''.join(('del  /Q /S "',PLATFORM,'"')))
     os.rmdir(PLATFORM)
 
