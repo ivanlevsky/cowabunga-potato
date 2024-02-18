@@ -74,7 +74,7 @@ with open(FILES_LIST, 'r') as file:
     for ls in lines:
         download(ls)
 
-#clean temp folder, rename download folder
+#clean temp folder
 if os.path.exists(''.join((DOWNLOAD_PATH,'temp'))):
     try:
         os.rmdir(''.join((DOWNLOAD_PATH,'temp')))
