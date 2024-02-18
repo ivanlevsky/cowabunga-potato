@@ -36,7 +36,7 @@ def download(file):
     download_url=parse.quote(''.join((PLATFORM,file)))
     download_url=''.join((PREFIX,download_url))
     download_file=''.join((DOWNLOAD_PATH,file))
-    zip_file_temp=''.join(('"',DOWNLOAD_PATH,'\\temp\\*.*'))
+    zip_file_temp=''.join(('"',DOWNLOAD_PATH,'\\temp\\*.*"'))
     zip_file_complete=os.path.exists(download_file.replace('.7z','.zip'))
 
     if (os.path.exists(download_file) or zip_file_complete) and not OVERWRITE_DOWNLOAS: 
@@ -85,7 +85,7 @@ if os.path.exists(''.join((DOWNLOAD_PATH,'temp'))):
 #pack files
 if PACK_FILES:
     os.rename('down',PLATFORM)
-    subprocess.getstatusoutput(''.join(('"',z7EXE,'" a "',os.getcwd(),'\\',PLATFORM.replace('/',''),'.7z" "',PLATFORM,'"')))
+    subprocess.getstatusoutput(''.join(('"',z7EXE,'" a "',os.getcwd(),'\\',PLATFORM.replace('/',''),'.7z" ',PLATFORM)))
     subprocess.getstatusoutput(''.join(('del  /Q /S "',PLATFORM,'"')))
     os.rmdir(PLATFORM)
 
