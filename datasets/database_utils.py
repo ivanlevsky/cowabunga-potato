@@ -46,7 +46,7 @@ def connect_to_databases(db_url, db_user, db_password):
     return connection
 
 
-def execute_sql(connection, sql, get_result, *execute_many_data):
+def execute_sql(connection, sql, get_result, get_header, *execute_many_data):
     cur = connection.cursor()
     if len(execute_many_data) > 0:
         cur.executemany(sql, execute_many_data[0])
@@ -60,7 +60,8 @@ def execute_sql(connection, sql, get_result, *execute_many_data):
         col_names = []
         for col in cur.description:
             col_names.append(col[0])
-        row_values.append(col_names)
+		if get_header:
+			row_values.append(col_names)
         for row in results:
             values = []
             for value in row:

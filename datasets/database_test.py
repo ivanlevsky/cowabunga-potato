@@ -20,12 +20,12 @@ create_table_sql = '''
 maria_connection = connect_to_databases(GlobalParam.get_mariadb_url(),
                                         GlobalParam.get_mariadb_user(),
                                         GlobalParam.get_mariadb_password())
-execute_sql(maria_connection, create_table_sql, False)
+execute_sql(maria_connection, create_table_sql, False, True)
 maria_connection.close()
 postgresql_connection = connect_to_databases(GlobalParam.get_pgsql_url(),
                                              GlobalParam.get_pgsql_user(),
                                              GlobalParam.get_pgsql_password())
-execute_sql(postgresql_connection,  create_table_sql, False)
+execute_sql(postgresql_connection,  create_table_sql, False, True)
 postgresql_connection.close()
 
 
@@ -38,12 +38,12 @@ data = read_excel(GlobalParam.get_excel_datasets(), 'movie', True, dtype=str)
 maria_connection = connect_to_databases(GlobalParam.get_mariadb_url(),
                                         GlobalParam.get_mariadb_user(),
                                         GlobalParam.get_mariadb_password())
-execute_sql(maria_connection, insert_many_sql, False, data)
+execute_sql(maria_connection, insert_many_sql, False, True, data)
 maria_connection.close()
 postgresql_connection = connect_to_databases(GlobalParam.get_pgsql_url(),
                                              GlobalParam.get_pgsql_user(),
                                              GlobalParam.get_pgsql_password())
-execute_sql(postgresql_connection,  insert_many_sql, False, data)
+execute_sql(postgresql_connection,  insert_many_sql, False, True, data)
 postgresql_connection.close()
 
 # connection to mysql, postgresql and write query sql results to excel sheet
@@ -51,13 +51,13 @@ query_sql = 'select * from movie'
 maria_connection = connect_to_databases(GlobalParam.get_mariadb_url(),
                                         GlobalParam.get_mariadb_user(),
                                         GlobalParam.get_mariadb_password())
-mariadb_row_values = execute_sql(maria_connection, query_sql, True)
+mariadb_row_values = execute_sql(maria_connection, query_sql, True, True)
 maria_connection.close()
 postgresql_connection = connect_to_databases(GlobalParam.get_pgsql_url(),
                                             GlobalParam.get_pgsql_user(),
                                             GlobalParam.get_pgsql_password()
 )
-pgsql_row_values = execute_sql(postgresql_connection,  query_sql, True)
+pgsql_row_values = execute_sql(postgresql_connection,  query_sql, True, True)
 postgresql_connection.close()
 write_excel(GlobalParam.get_excel_datasets(),'movie_maria', mariadb_row_values,False)
 write_csv(GlobalParam.get_csv_datasets(), mariadb_row_values, False)
